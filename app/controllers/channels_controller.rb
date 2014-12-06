@@ -4,6 +4,7 @@ class ChannelsController < ApplicationController
 
   def index
     @channels = current_user.get_my_channels.page(params[:page] || 1)
+    render :index, layout: "side_menu"
   end
 
   def show
@@ -11,8 +12,8 @@ class ChannelsController < ApplicationController
 
   def check_role
     @owner = true
-    @translator = true
-    @parner = true
+    @translator = false
+    @partner = false
   end
 
   def load_user
