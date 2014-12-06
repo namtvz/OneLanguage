@@ -1,0 +1,35 @@
+- owner = true
+- translator = true
+- parner = false
+- def randBoolean()
+  - [true, false].sample
+
+.channel-show
+  .chat-header
+    .row
+      .col.col-md-3
+
+      .col.col-md-3
+      .col.col-md-3
+  .chat-content
+    %table.channel-table{class: "#{translator ? 'three-column': 'two-column'}"}
+      %tbody
+        - (1..5).each do |i|
+          %tr
+            %td
+              = randBoolean ? "hello" : ""
+            - if translator
+              %td
+                = randBoolean ? "hello" : ""
+            %td
+              = randBoolean ? "hello" : ""
+        %tr
+          %td
+            - if owner
+              %textarea
+          - if translator
+            %td
+          %td
+            - if parner
+              %textarea
+  .chat-footer

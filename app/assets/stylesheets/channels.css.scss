@@ -1,0 +1,45 @@
+// Place all the styles related to the Channels controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.channel-show {
+  .chat-header {
+    height: 100px;
+  }
+  .chat-content {
+    .channel-table  {
+      min-height: 400px;
+      width: 100%;
+      &.two-column {
+        tr td {
+          width: 50%;
+        }
+      }
+      &.three-column {
+        tr td {
+          width: 30%;
+        }
+      }
+      tr:not(:last-child) td{
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+      }
+      tr:first-child td{
+        border-top: 1px solid;
+      }
+      tr:nth-last-child(2) {
+        border-bottom: 1px solid;
+      }
+      tr:last-child {
+        height: 50px;
+      }
+      tr:hover {
+        background: lightgray;
+      }
+    }
+
+  }
+  .chat-footer {
+
+  }
+
+}
