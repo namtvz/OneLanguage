@@ -1,8 +1,5 @@
-- owner = true
-- translator = true
-- parner = false
-- def randBoolean()
-  - [true, false].sample
+- def randMessage()
+  - [true, false].sample ? Faker::Lorem.sentence : ""
 
 .channel-show
   .chat-header
@@ -12,24 +9,21 @@
       .col.col-md-3
       .col.col-md-3
   .chat-content
-    %table.channel-table{class: "#{translator ? 'three-column': 'two-column'}"}
+    %table.channel-table{class: "#{@translator ? 'three-column': 'two-column'}"}
       %tbody
-        - (1..5).each do |i|
-          %tr
-            %td
-              = randBoolean ? "hello" : ""
-            - if translator
-              %td
-                = randBoolean ? "hello" : ""
-            %td
-              = randBoolean ? "hello" : ""
+        - (1..50).each do |i|
+          - owner_msg = randMessage
+          - translator_msg = randMessage
+          - partner_msg = randMessage
+          = render "message", owner_msg: owner_msg, translator_msg: translator_msg, partner_msg: partner_msg
+
         %tr
           %td
-            - if owner
+            - if @owner
               %textarea
-          - if translator
+          - if @translator
             %td
           %td
-            - if parner
+            - if @parner
               %textarea
   .chat-footer

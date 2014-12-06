@@ -31,6 +31,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets', '~> 1.0.3'
+  gem 'faker', '~> 1.4.3'
 end
 
 # Login/Sign Up Social Gem for Ruby on Rails.

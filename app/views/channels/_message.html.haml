@@ -1,0 +1,11 @@
+- owner_msg = "" if !owner_msg
+- translator_msg = "" if !translator_msg
+- partner_msg = "" if !partner_msg
+%tr
+  %td.owner-td
+    = owner_msg
+  - if @translator
+    %td.translator-td
+      = translator_msg
+  %td.partner-td
+    = partner_msg
