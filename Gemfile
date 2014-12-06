@@ -28,7 +28,8 @@ gem 'devise', '3.0.4'
 #Better Errors
 group :development do
   gem 'spring'
-  gem 'thin'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Login/Sign Up Social Gem for Ruby on Rails.
@@ -39,3 +40,7 @@ gem 'omniauth-google-oauth2', '0.2.4'
 
 gem 'haml-rails', '~> 0.6.0'
 gem 'puma', '~> 2.10.2'
+
+gem 'paperclip', '~> 4.2.0'
+
+gem 'dropzonejs-rails', '~> 0.5.2'
