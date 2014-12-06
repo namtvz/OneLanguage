@@ -12,18 +12,21 @@
           - translator_msg = randMessage
           - partner_msg = randMessage
           = render "message", owner_msg: owner_msg, translator_msg: translator_msg, partner_msg: partner_msg, from_owner: (i%2 == 1)
-  .chat-footer
-    %table{class: "#{@translator ? 'three-column': 'two-column'}"}
-      %tbody
-        %tr
-          %td
-            - if @owner
-              %textarea
-          - if @translator
-            %td
-          %td
-            - if @parner
-              %textarea
+  .chat-footer.row.no-padding
+    .col.col-md-6
+      - if @owner
+        .row
+          .col.col-md-11
+            %textarea{placeholder: 'Type chat message here...', autofocus: true}
+          .col.col-md-1
+            %i{class: 'fa fa-paperclip'}
+    .col.col-md-6
+      - if @partner
+        .row
+          .col.col-md-1.text-right
+            %i{class: 'fa fa-paperclip'}
+          .col.col-md-11
+            %textarea{placeholder: 'Type chat message here...', autofocus: true}
 
 :javascript
   $(document).ready(function(){

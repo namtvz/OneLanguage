@@ -8,3 +8,29 @@ label.error{
   font-size: smaller;
   color: red;
 }
+
+textarea {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  resize: vertical;
+}
+
+.thumbnail-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+
+}
+.thumbnail-img.online {
+  border: 3px solid blue;
+}
+
+.row.no-padding {
+  .col:first-child{
+    padding-right: 2px !important;
+  }
+  .col:last-child{
+    padding-left: 2px !important;
+  }
+}

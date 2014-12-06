@@ -11,12 +11,13 @@
         = owner_msg
       .message-time
         = message_time_owner
-  - if @translator
-    %td.translator-td
+  %td.translator-td
+    - if @translator
       .message-content
         .arrow
-        %textarea
+        %textarea{placeholder: "Enter translated text ...", disabled: !translator_msg.blank?}
           = translator_msg
+
   %td.partner-td
     - if partner_msg.present?
       .message-content

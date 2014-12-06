@@ -1,14 +1,20 @@
 .row
   /Owner information
   .col.col-md-4.text-left
+    &nbsp;
+    .clearfix
     = image_tag @owner_acc.avatar_url, class: 'thumbnail-img online'
     .clearfix
     = @owner_acc.name
   .col.col-md-4.text-center
+    Translator
+    .clearfix
     = image_tag @translator_acc.avatar_url, class: 'thumbnail-img'
     .clearfix
     = @translator_acc.name
   .col.col-md-4.text-right
+    &nbsp;
+    .clearfix
     = image_tag @partner_acc.avatar_url, class: 'thumbnail-img'
     .clearfix
     = @partner_acc.name
