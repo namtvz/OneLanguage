@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users,
     controllers: {
-      omniauth_callbacks: :omniauth_callbacks
+      omniauth_callbacks: :omniauth_callbacks,
+      registrations: :registrations
     }
+
+  devise_scope :user do
+    put "users/upload_avatar", to: "registrations#upload_avatar"
+  end
 
   authenticated :user do
     root :to => 'channels#index', :as => :authenticated_root

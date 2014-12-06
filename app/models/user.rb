@@ -12,6 +12,11 @@ class User < ActiveRecord::Base
 
   has_many :identities, dependent: :destroy
 
+  has_attached_file :avatar, :styles => {small: "50x50>"},
+    default_url: "no-avatar.png"
+
+  validates_attachment_content_type :avatar, content_type: ["image/png", "image/jpeg", "image/gif"]
+
   attr_accessor :avatar_url
 
   # Class methods

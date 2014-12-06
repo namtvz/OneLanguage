@@ -26,4 +26,40 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def upload_avatar
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+
+    self.resource.avatar = params[:avatar]
+
+    self.resource.save
+
+    render json: self.resource
+  end
+
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    is_changing_password = !params[:user][:current_password].blank?
+
+    successfully_updated = if is_changing_password
+      resource.update_with_password(account_update_params)
+    else
+      params[:user].delete(:current_password)
+      resource.update_without_password(account_update_params)
+    end
+
+    if successfully_updated
+      if is_navigational_format?
+        flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
+          :update_needs_confirmation : :updated
+        set_flash_message :notice, flash_key
+      end
+      sign_in resource_name, resource, bypass: true
+      redirect_to edit_user_registration_path
+    else
+      clean_up_passwords resource
+      respond_with resource
+    end
+  end
 end

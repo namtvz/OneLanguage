@@ -47,3 +47,5 @@ gem 'dropzonejs-rails', '~> 0.5.2'
 gem 'twitter-bootstrap-rails', '~> 3.2.0'
 gem 'kaminari', '~> 0.16.1'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
+
+gem 'language_list', '~> 1.0.0'
