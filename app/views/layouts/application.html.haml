@@ -20,7 +20,7 @@
 
 
   %body
-    .navbar.navbar-default.navbar-static-top
+    .navbar.navbar-inverse.navbar-fixed-top
       .container
         %button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse")
           %span.icon-bar
@@ -29,7 +29,15 @@
         %a.navbar-brand(href="#") OneLanguage
         .navbar-collapse.collapse.navbar-responsive-collapse
           %ul.nav.navbar-nav
-
+          %ul.nav.navbar-nav.navbar-right
+            - if user_signed_in?
+              %li
+                = link_to "Settings", edit_user_registration_path
+              %li
+                = link_to "Sign Out", destroy_user_session_path, method: :delete
+            - else
+              %li
+                = link_to "Sign In", new_user_session_path
 
     .container
       .row
