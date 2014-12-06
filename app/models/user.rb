@@ -69,4 +69,13 @@ class User < ActiveRecord::Base
       Channel.where("owner_id = :user_id OR partner_id = :user_id", user_id: self.id)
     end
   end
+
+  def language_names
+    names = languages.pluck(:name)
+    if names.empty?
+      ""
+    else
+      names.join(", ")
+    end
+  end
 end

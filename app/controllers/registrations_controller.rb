@@ -46,6 +46,15 @@ class RegistrationsController < Devise::RegistrationsController
       resource.update_with_password(account_update_params)
     else
       params[:user].delete(:current_password)
+      languages = params[:language_names].split(",")
+
+      unless languages.empty?
+        resource.languages.where.not(name: languages).destroy_all
+        languages.each do |l|
+          resource.languages.build(name: l) if !resource.languages.exists?(name: l)
+        end
+      end
+
       resource.update_without_password(account_update_params)
     end
 

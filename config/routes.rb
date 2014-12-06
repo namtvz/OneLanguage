@@ -16,4 +16,6 @@ Rails.application.routes.draw do
 
   resources :channels
   resources :attachments, only: [:create, :destroy]
+
+  get '/search_languages' => 'home#search_languages'
 end

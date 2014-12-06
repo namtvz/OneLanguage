@@ -5,18 +5,17 @@
  */
 
 .tknz-wrapper { /* The apparent input */
-     width: 350px;
-     height: 250px;
-     margin: 50px auto;
-     padding: 10px;
+     width: auto;
+     height: auto;
+     margin: 0px;
+     padding-bottom: 20px;
      overflow: auto;
 
      color: #fefefe;
      background: #fefefe;
-     font-family: "Courier", Times, sans-serif;
 
      border: solid 2px #DFDFDF;
-     border-radius:10px;
+     border-radius:5px;
 }
 
 .tknz-focus{ /* Apparent input in active state */
@@ -49,7 +48,7 @@
 .tknz-token { /* An individual token */
     background: #5c7db7;
     padding: 2px 2px 2px 5px;
-    margin: 2px;
+    margin: 7px;
     float: left;
     border-radius: 4px;
     max-width: 340px;
