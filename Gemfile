@@ -30,6 +30,7 @@ group :development do
   gem 'spring'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'quiet_assets', '~> 1.0.3'
 end
 
 # Login/Sign Up Social Gem for Ruby on Rails.
@@ -42,4 +43,4 @@ gem 'haml-rails', '~> 0.6.0'
 gem 'puma', '~> 2.10.2'
 gem 'paperclip', '~> 4.2.0'
 gem 'dropzonejs-rails', '~> 0.5.2'
-gem "twitter-bootstrap-rails"
+gem 'twitter-bootstrap-rails', '~> 3.2.0'
