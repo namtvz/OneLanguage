@@ -23,7 +23,19 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+gem 'devise', '3.0.4'
+
+#Better Errors
+group :development do
+  gem 'spring'
+  gem 'thin'
+end
+
+# Login/Sign Up Social Gem for Ruby on Rails.
+gem 'omniauth', '1.2.1'
+gem 'omniauth-facebook', '1.6.0'
+gem 'omniauth-google-oauth2', '0.2.4'
+
 
 gem 'haml-rails', '~> 0.6.0'
 gem 'puma', '~> 2.10.2'
