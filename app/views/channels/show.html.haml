@@ -15,7 +15,7 @@
           - owner_msg = randMessage
           - translator_msg = randMessage
           - partner_msg = randMessage
-          = render "message", owner_msg: owner_msg, translator_msg: translator_msg, partner_msg: partner_msg
+          = render "message", owner_msg: owner_msg, translator_msg: translator_msg, partner_msg: partner_msg, from_owner: (i%2 == 1)
   .chat-footer
     %table{class: "#{@translator ? 'three-column': 'two-column'}"}
       %tbody
@@ -29,3 +29,14 @@
             - if @parner
               %textarea
 
+:javascript
+  $(document).ready(function(){
+    resizeTable();
+    $(window).resize(function(){
+      resizeTable();
+    });
+  });
+  function resizeTable(){
+    maxHeight = $(window).height() - 300
+    $('.channel-table tbody').css({'max-height': maxHeight});
+  }

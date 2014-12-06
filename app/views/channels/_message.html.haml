@@ -1,11 +1,26 @@
 - owner_msg = "" if !owner_msg
 - translator_msg = "" if !translator_msg
 - partner_msg = "" if !partner_msg
-%tr
+- from_owner = true if from_owner.nil?
+- message_time_owner = message_time_partner = Time.now
+%tr{class: "#{from_owner ? 'from-owner' : 'from-partner'}"}
   %td.owner-td
-    = owner_msg
+    - if owner_msg.present?
+      .message-content
+        .arrow
+        = owner_msg
+      .message-time
+        = message_time_owner
   - if @translator
     %td.translator-td
-      = translator_msg
+      - if translator_msg.present?
+        .message-content
+          .arrow
+          = translator_msg
   %td.partner-td
-    = partner_msg
+    - if partner_msg.present?
+      .message-content
+        .arrow
+        = partner_msg
+      .message-time
+        = message_time_partner

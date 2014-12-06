@@ -10,7 +10,7 @@
       width: 100%;
       tbody {
         display: block;
-        max-height: 600px;
+        // max-height: 600px;
         overflow: auto;
       }
       &.two-column {
@@ -23,6 +23,9 @@
           width: 30%;
         }
       }
+      td {
+        padding: 20px 5px 5px 5px;
+      }
       tr td{
         border-left: 1px solid black;
         border-right: 1px solid black;
@@ -30,11 +33,61 @@
       tr:first-child td{
         border-top: 1px solid;
       }
-      tr:last-child {
+      tr:last-child td{
         border-bottom: 1px solid;
       }
       tr:hover {
+        background: lightgreen;
+      }
+      td {
+        vertical-align: top;
+      }
+      .message-content {
+        padding: 5px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        position: relative;
+        .arrow {
+          position: absolute;
+          top: -15px;
+        }
         background: lightgray;
+
+      }
+
+      .from-owner {
+        .message-content{
+          margin-right: 20px;
+        }
+        .arrow {
+          left: 5px;
+          border-left: 0px solid transparent;
+          border-right: 20px solid transparent;
+          border-bottom: 15px solid lightgray;
+        }
+        .message-time {
+          float: left;
+          margin-left: 5px;
+        }
+      }
+      .from-partner {
+        .message-content{
+          margin-left: 20px;
+        }
+        .arrow {
+          right: 5px;
+          border-left: 20px solid transparent;
+          border-right: 0px solid transparent;
+          border-bottom: 15px solid lightgray;
+        }
+        .message-time {
+          float: right;
+          margin-right: 5px;
+        }
+      }
+      .message-time {
+        font-size: 11px;
+        font-style: italic;
       }
     }
 
