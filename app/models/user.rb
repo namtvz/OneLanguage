@@ -6,13 +6,15 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   # Relationships
-  has_many :own_channels, class_name: 'Channel', foreign_key: 'owner_id'
+  has_many :owner_channels, class_name: 'Channel', foreign_key: 'owner_id'
   has_many :translator_channels, class_name: 'Channel', foreign_key: 'translator_id'
   has_many :partner_channels, class_name: 'Channel', foreign_key: 'partner_id'
 
   has_many :identities, dependent: :destroy
 
   attr_accessor :avatar_url
+
+  # Class methods
   def self.find_for_oauth(auth, signed_in_resource = nil)
     # Get the identity and user if they exist
     identity = Identity.find_for_oauth(auth)
@@ -46,5 +48,18 @@ class User < ActiveRecord::Base
       identity.save!
     end
     user
+  end
+
+  # Instance methods
+  def translator?
+    self.is_translator
+  end
+
+  def get_my_channels
+    if self.translator?
+      self.translator_channels
+    else
+      Channel.where("owner_id = :user_id OR partner_id = :user_id", user_id: self.id)
+    end
   end
 end

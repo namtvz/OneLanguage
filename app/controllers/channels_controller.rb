@@ -1,6 +1,11 @@
 class ChannelsController < ApplicationController
   before_action :check_role
   before_action :load_user
+
+  def index
+    @channels = current_user.get_my_channels.page(params[:page] || 1)
+  end
+
   def show
   end
 

@@ -1,0 +1,5 @@
+.channel-list
+  - if current_user.translator?
+    = render 'translator_channel_list', channels: @channels
+  - else
+    = render 'normal_channel_list', channels: @channels

@@ -1,5 +1,6 @@
 class Channel < ActiveRecord::Base
   ACCESS_CODE_LENGTH = 32
+  paginates_per 1
 
   # Relationships
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
@@ -11,8 +12,13 @@ class Channel < ActiveRecord::Base
   validates :owner_language, presence: true
   validates :partner_language, presence: true
 
+  # Scopes
+  default_scope -> { order(:created_at) }
+
+  # Callbacks
   before_create :ensure_partner_access_code, :ensure_translator_access_code
 
+  # Class methods
   def self.data_for_token token
     channel = self.where("partner_access_code = :token OR translator_access_code = :token", token: token).first
     if channel

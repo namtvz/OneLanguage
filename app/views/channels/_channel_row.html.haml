@@ -1,0 +1,20 @@
+%tr
+  - if type == :normal
+    %td
+      - if my_channel?(channel)
+        %i.fa.fa-check.green{title: "This channel is created by you"}
+  %td
+    = channel.name
+  - if type == :normal
+    %td
+      = my_channel?(channel) ? (channel.partner.name rescue '') : (channel.owner.name rescue '')
+    %td
+      = channel.translator.name rescue ''
+  - else
+    %td
+      = channel.owner.name rescue ''
+    %td
+      = channel.partner.name rescue ''
+  %td
+    = l channel.created_at
+  %td
