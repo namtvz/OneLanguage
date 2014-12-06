@@ -7,8 +7,12 @@
   }
   .chat-content {
     .channel-table  {
-      min-height: 400px;
       width: 100%;
+      tbody {
+        display: block;
+        max-height: 600px;
+        overflow: auto;
+      }
       &.two-column {
         tr td {
           width: 50%;
@@ -19,18 +23,15 @@
           width: 30%;
         }
       }
-      tr:not(:last-child) td{
+      tr td{
         border-left: 1px solid black;
         border-right: 1px solid black;
       }
       tr:first-child td{
         border-top: 1px solid;
       }
-      tr:nth-last-child(2) {
-        border-bottom: 1px solid;
-      }
       tr:last-child {
-        height: 50px;
+        border-bottom: 1px solid;
       }
       tr:hover {
         background: lightgray;
@@ -38,8 +39,18 @@
     }
 
   }
-  .chat-footer {
-
+  .chat-footer table{
+    width: 100%;
+    &.two-column {
+      tr td {
+        width: 50%;
+      }
+    }
+    &.three-column {
+      tr td {
+        width: 30%;
+      }
+    }
   }
 
 }
