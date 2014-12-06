@@ -1,6 +1,6 @@
 class Channel < ActiveRecord::Base
   ACCESS_CODE_LENGTH = 32
-  paginates_per 1
+  paginates_per 10
 
   # Relationships
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
@@ -13,7 +13,13 @@ class Channel < ActiveRecord::Base
   validates :partner_language, presence: true
 
   # Scopes
-  default_scope -> { order(:created_at) }
+  scope :search, ->(current_user, term) {
+    search_query_parts = ["(channels.name LIKE :term)"]
+    search_query_parts << "(translators.name LIKE :term)"
+    search_query_parts << "(owners.name LIKE :term)"
+    search_query_parts << "(partners.name LIKE :term)"
+    joins("LEFT JOIN users as owners ON owners.id = channels.owner_id").joins("LEFT JOIN users as partners ON partners.id = channels.partner_id").joins("LEFT JOIN users as translators ON translators.id = channels.translator_id").where([search_query_parts.join(' OR '), user_id: current_user.id, term: "%#{term}%"])
+  }
 
   # Callbacks
   before_create :ensure_partner_access_code, :ensure_translator_access_code

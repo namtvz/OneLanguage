@@ -5,11 +5,7 @@
         .form-group
           %input.form-control{type: 'text', name: 'term', placeholder: 'Search', value: params[:term]}
           %button.btn.btn-default{type: 'submit'} GO
-          - if !current_user.translator?
-            %a.btn.btn-primary Create Channel
+          %a.btn.btn-primary Create Channel
 
   .channels-table
-    - if current_user.translator?
-      = render 'translator_channel_list', channels: @channels
-    - else
-      = render 'normal_channel_list', channels: @channels
+    = render 'normal_channel_list', channels: @channels

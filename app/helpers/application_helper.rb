@@ -6,8 +6,8 @@ module ApplicationHelper
     super( objects, options )
   end
 
-  def my_channel? channel
-    channel.owner_id == current_user.id
+  def is_me? id
+    current_user.id == id
   end
 
 end
