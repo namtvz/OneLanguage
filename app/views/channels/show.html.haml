@@ -3,11 +3,7 @@
 
 .channel-show
   .chat-header
-    .row
-      .col.col-md-3
-
-      .col.col-md-3
-      .col.col-md-3
+    = render "header"
   .chat-content
     %table.channel-table{class: "#{@translator ? 'three-column': 'two-column'}"}
       %tbody

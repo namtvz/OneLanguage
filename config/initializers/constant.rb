@@ -1,0 +1,1 @@
+DEFAULT_IMAGE_URL = "no-avatar.png"

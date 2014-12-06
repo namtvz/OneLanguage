@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
-  validates :name, presence: true       
+  validates :name, presence: true
 
   # Relationships
   has_many :own_channels, class_name: 'Channel', foreign_key: 'owner_id'
@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   has_many :identities, dependent: :destroy
 
+  attr_accessor :avatar_url
   def self.find_for_oauth(auth, signed_in_resource = nil)
     # Get the identity and user if they exist
     identity = Identity.find_for_oauth(auth)
