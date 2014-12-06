@@ -13,9 +13,9 @@
         = message_time_owner
   - if @translator
     %td.translator-td
-      - if translator_msg.present?
-        .message-content
-          .arrow
+      .message-content
+        .arrow
+        %textarea
           = translator_msg
   %td.partner-td
     - if partner_msg.present?

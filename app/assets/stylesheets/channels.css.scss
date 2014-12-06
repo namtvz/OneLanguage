@@ -13,6 +13,9 @@
         // max-height: 600px;
         overflow: auto;
       }
+      // tbody, tr {
+      //   width: 100%;
+      // }
       &.two-column {
         tr td {
           width: 50%;
@@ -22,7 +25,25 @@
         tr td {
           width: 30%;
         }
+        tr:first-child td:nth-child(2){
+          border-top: none;
+        }
+        tr:last-child td:nth-child(2){
+          border-bottom: none;
+        }
       }
+      @media (min-width: 1200px){
+        tbody {
+          width: 1140px;
+        }
+        &.two-column tr td{
+          width: 570px;
+        }
+        &.three-column tr td{
+          width: 380px;
+        }
+      }
+
       td {
         padding: 20px 5px 5px 5px;
       }
@@ -88,6 +109,20 @@
       .message-time {
         font-size: 11px;
         font-style: italic;
+      }
+      .from-owner, .from-partner {
+        .translator-td {
+          .message-content{
+            min-height: 32px;
+            margin-left: 0px;
+            margin-right: 0px;
+            text-align: center;
+            textarea, textarea:focus, textarea:hover {
+              background: transparent;
+              border: 1px solid transparent;
+            }
+          }
+        }
       }
     }
 
