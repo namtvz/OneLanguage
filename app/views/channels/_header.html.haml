@@ -3,11 +3,11 @@
   .col.col-md-4.text-left
     &nbsp;
     .clearfix
-    = image_tag @owner_acc.avatar_url, class: 'thumbnail-img online'
+    = image_tag @owner_acc.avatar.url(:small), class: 'thumbnail-img online'
     .clearfix
     = @owner_acc.name
   .col.col-md-4.text-center
-    Translator
+    %i.fa.fa-comments-o
     .clearfix
     = image_tag @translator_acc.avatar_url, class: 'thumbnail-img'
     .clearfix

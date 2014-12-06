@@ -1,6 +1,9 @@
 // Place all the styles related to the Channels controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$table-border-color: #CCC;
+$message-content-color: beige;
+
 .channel-show {
   .chat-header {
     height: 100px;
@@ -51,14 +54,14 @@
         padding: 20px 5px 5px 5px;
       }
       tr td{
-        border-left: 1px solid black;
-        border-right: 1px solid black;
+        border-left: 1px solid $table-border-color;
+        border-right: 1px solid $table-border-color;
       }
       tr:first-child td{
-        border-top: 1px solid;
+        border-top: 1px solid $table-border-color;
       }
       tr:last-child td{
-        border-bottom: 1px solid;
+        border-bottom: 1px solid $table-border-color;
       }
       tr:hover {
         background: lightgreen;
@@ -75,8 +78,7 @@
           position: absolute;
           top: -15px;
         }
-        background: lightgray;
-
+        background: $message-content-color;
       }
 
       .from-owner {
@@ -87,7 +89,7 @@
           left: 5px;
           border-left: 0px solid transparent;
           border-right: 20px solid transparent;
-          border-bottom: 15px solid lightgray;
+          border-bottom: 15px solid $message-content-color;
         }
         .message-time {
           float: left;
@@ -102,7 +104,7 @@
           right: 5px;
           border-left: 20px solid transparent;
           border-right: 0px solid transparent;
-          border-bottom: 15px solid lightgray;
+          border-bottom: 15px solid $message-content-color;
         }
         .message-time {
           float: right;

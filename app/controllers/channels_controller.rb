@@ -1,4 +1,5 @@
 class ChannelsController < ApplicationController
+  before_action :find_channel, only: [:show]
   before_action :check_role
   before_action :load_user
 
@@ -12,6 +13,7 @@ class ChannelsController < ApplicationController
   end
 
   def show
+    @owner_acc = @channel.owner
   end
 
   def check_role
@@ -21,9 +23,13 @@ class ChannelsController < ApplicationController
   end
 
   def load_user
-
-    @owner_acc = User.new(name: 'NUS NhanNM', email: 'nhanmn@nustechnology.com', avatar_url: DEFAULT_IMAGE_URL)
+    #@owner_acc = User.new(name: 'NUS NhanNM', email: 'nhanmn@nustechnology.com', avatar_url: DEFAULT_IMAGE_URL)
     @translator_acc = User.new(name: 'NUS NamTV', email:'namtv@nustechnology.com', avatar_url: DEFAULT_IMAGE_URL)
     @partner_acc = User.new(name: 'NUS ChienTX', email:'chientx@nustechnology.com', avatar_url: DEFAULT_IMAGE_URL)
+  end
+
+  private
+  def find_channel
+    @channel = Channel.find(params[:id])
   end
 end
