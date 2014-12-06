@@ -3,12 +3,12 @@ Rails.application.routes.draw do
     controllers: {
       omniauth_callbacks: :omniauth_callbacks
     }
-    
+
   authenticated :user do
     root :to => 'home#index', :as => :authenticated_root
   end
   root :to => redirect('/users/sign_in')
 
   resources :channels
-
+  resources :attachments, only: [:create, :destroy]
 end
