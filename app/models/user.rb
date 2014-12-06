@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+  validates :name, presence: true       
 
   # Relationships
   has_many :own_channels, class_name: 'Channel', foreign_key: 'owner_id'
