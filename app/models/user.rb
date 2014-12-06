@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
 
   validates_attachment_content_type :avatar, content_type: ["image/png", "image/jpeg", "image/gif"]
 
+  has_many :languages
+
   attr_accessor :avatar_url
 
   # Class methods

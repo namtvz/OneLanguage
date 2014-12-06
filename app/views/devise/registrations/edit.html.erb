@@ -37,7 +37,9 @@
       </div>
     </div>
   </div>
+<% end %>
 
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <div class="panel panel-default">
     <div class="panel-heading">Settings</div>
     <div class="panel-body">
@@ -68,3 +70,4 @@
   </div>
 <% end %>
 
+<br class="clearfix" />
