@@ -4,7 +4,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  has_many :identities, dependent: :destroy       
+  # Relationships
+  has_many :own_channels, class_name: 'Channel', foreign_key: 'owner_id'
+  has_many :translator_channels, class_name: 'Channel', foreign_key: 'translator_id'
+  has_many :partner_channels, class_name: 'Channel', foreign_key: 'partner_id'
+
+  has_many :identities, dependent: :destroy
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
     # Get the identity and user if they exist
@@ -39,5 +44,5 @@ class User < ActiveRecord::Base
       identity.save!
     end
     user
-  end       
+  end
 end
