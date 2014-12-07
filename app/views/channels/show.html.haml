@@ -1,6 +1,8 @@
 - def randMessage()
   - [true, false].sample ? Faker::Lorem.sentence : ""
-
+.alert.alert-warning{class: "#{@channel.ended_at ? '' : 'display-none'}"}
+  %button.close{"data-dismiss" => "alert"}> ×
+  This conversation was ended. You're in read only mode.
 .channel-show
   .chat-header
     = render "header"
@@ -12,12 +14,16 @@
           - translator_msg = randMessage
           - partner_msg = randMessage
           = render "message", owner_msg: owner_msg, translator_msg: translator_msg, partner_msg: partner_msg, from_owner: (i%2 == 1)
-  - unless @translator
+  - unless @translator || @channel.ended_at
     .chat-footer
       %textarea#chat-input{autofocus: true, placeholder: "Type your message here"}
       .upload-wrapper{title: "Attach files", "data-toggle" => "tooltip"}
         %i{class: 'fa fa-paperclip'}
         %input#fileupload{type: "file", name: "files[]", multiple: true}
+      - if @role == 'owner'
+        .pull-right
+          = link_to 'End This Conversation', end_conversation_channel_path(@channel), class: 'btn btn-danger', method: :put
+
 
 :javascript
   var role = "#{@role}";
@@ -39,6 +45,12 @@
     sendMessageButton = $('#btn-submit'),
     leaveButton = $('#btn-leave');
 
+  function showEndedChannel(){
+    $('.alert').show();
+    $('.chat-footer').remove();
+    $('textarea').prop('disabled', true);
+  }
+
   function handleMessage(message){
     switch(message.type) {
       case 'message':
@@ -58,6 +70,9 @@
         break;
       case 'edit':
         showEditMessage(message);
+        break;
+      case 'end_channel':
+        showEndedChannel();
         break;
     }
 
@@ -94,7 +109,6 @@
     if(isOnline){
       //Create if this user of this role is not exist
       if(!$('.user-updated#avatar-' + m.uuid).size()){
-        console.log(m)
         user = {
           avatar_type: m.role + "-avatar_type",
           avatar_url: m.avatar,
@@ -173,15 +187,13 @@
 
   function sendTranslating(sendStart, el){
     var message_ref = el.attr('m_ref');
-    var original_uid = parseInt(el.attr('u_id'));
+    var original_uid = el.attr('u_id');
     message = {
       message_ref: message_ref,
       original_uid: original_uid,
       start: sendStart,
       type: 'translating'
     };
-    console.log('Send translating');
-    console.log(message);
     messenger.publish({
       channel: chatChannel,
       message: message
@@ -195,8 +207,6 @@
       start: sendStart,
       type: 'typing'
     };
-    console.log('Send typing');
-    console.log(message);
     messenger.publish({
       channel: chatChannel,
       message: message
@@ -308,6 +318,9 @@
         if(messages[i].type == 'message' || messages[i].type == 'attachment' || messages[i].type== 'edit'){
           handleMessage(messages[i])
         }
+      }
+      if(#{@channel.ended_at.present?}){
+        $('textarea').prop('disabled', true);
       }
     });
 

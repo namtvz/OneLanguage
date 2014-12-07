@@ -102,6 +102,11 @@ class ChannelsController < ApplicationController
     render json: {success: success, user: user_info, is_exist: is_exist, error: @channel.errors.full_messages}
   end
 
+  def end_conversation
+    Channel.friendly.find(params[:id]).end_channel
+    redirect_to channels_path
+  end
+
 private
   def find_channel
     @channel = Channel.friendly.find(params[:id])

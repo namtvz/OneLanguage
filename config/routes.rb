@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :channels do
     member do
       post :invite
+      put :end_conversation
     end
   end
   resources :attachments, only: [:create, :destroy]

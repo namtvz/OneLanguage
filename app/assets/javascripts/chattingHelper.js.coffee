@@ -103,14 +103,14 @@ class @ChattingHelper
             <div class="typing-text">Translating...</div>
           ')
         else
-          tr.find('td.partner-td').find('div.typing-text').remove()
+          @chattingTable.find('div.typing-text').remove()
       else
         if m.start
           tr.find('td.owner-td').append('
             <div class="typing-text text-right">Translating...</div>
           ')
         else
-          tr.find('td.owner-td').find('div.typing-text').remove()
+          @chattingTable.find('div.typing-text').remove()
 
   showTypingMessage: (m) ->
     if @role is 'translator'
