@@ -35,16 +35,12 @@
     isBlurred = false,
     timerId = -1,
     notificationPermission = 1,
-    chatChannel = '#{'test 10'}',
+    chatChannel = '#{@channel.uuid}',
     messageContent = $('#chat-input'),
     sendMessageButton = $('#btn-submit'),
     leaveButton = $('#btn-leave');
 
   function handleMessage(message){
-    if(message.type == 'message'){
-      showMessage(message);
-    }
-
     switch(message.type) {
       case 'message':
         showMessage(message);

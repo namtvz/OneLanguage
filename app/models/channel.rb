@@ -22,7 +22,7 @@ class Channel < ActiveRecord::Base
   }
 
   # Callbacks
-  before_create :ensure_partner_access_code, :ensure_translator_access_code
+  before_create :ensure_partner_access_code, :ensure_translator_access_code, :ensure_uuid
 
   # Class methods
   def self.data_for_token token
@@ -68,5 +68,9 @@ class Channel < ActiveRecord::Base
       self.translator_access_code = SecureRandom.hex ACCESS_CODE_LENGTH
       break unless Channel.data_for_token self.translator_access_code
     end
+  end
+
+  def ensure_uuid
+    self.uuid = Time.now.to_i.to_s
   end
 end
