@@ -9,7 +9,7 @@ puma_is_running() {
   if [ -S $PUMA_SOCKET ] ; then
     if [ -e $PUMA_PID_FILE ] ; then
       if pgrep -F $PUMA_PID_FILE > /dev/null ; then
-        return 0
+        return 1
       else
         echo "No puma process found"
       fi
