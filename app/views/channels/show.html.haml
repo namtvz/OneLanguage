@@ -19,7 +19,9 @@
 
     - unless @translator
       %textarea#chat-input
-      %i{class: 'fa fa-paperclip'}
+      .upload-wrapper
+        %i{class: 'fa fa-paperclip'}
+        %input#fileupload{type: "file", name: "files[]", multiple: true}
       %br
       %button.btn.btn-primary#btn-leave Leave
 
@@ -47,6 +49,9 @@
         break;
       case 'user_subscribe':
         toggleOnlineUser(message, true);
+        break;
+      case 'attachment':
+        showAttachment(message);
         break;
     }
 
@@ -232,3 +237,5 @@
     maxHeight = $(window).height() - 300
     $('.channel-table tbody').css({'max-height': maxHeight});
   }
+
+  new Uploader(#{@channel.id}, #{@channel.uuid})

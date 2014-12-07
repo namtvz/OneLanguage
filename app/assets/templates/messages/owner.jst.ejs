@@ -1,0 +1,25 @@
+<% if (isOwner){ %>
+  <tr class="from-owner" id="<%= message.message_ref %>">
+    <td class="owner-td">
+      <div class="message-content">
+        <div class="arrow"></div>
+        <%= message.message %>
+      </div>
+      <div class="message-time"><%= timeAgo(message.message_ref) %></div>
+    </td>
+    <td class="translator-td"></td>
+    <td class="partner-td"></td>
+  </tr>
+<% } else { %>
+  <tr class="from-partner" id="<%= message.message_ref %>">
+    <td class="owner-td"></td>
+    <td class="translator-td"></td>
+    <td class="partner-td">
+      <div class="message-content">
+        <div class="arrow"></div>
+        <%= message.message %>
+      </div>
+      <div class="message-time"><%= timeAgo(message.message_ref) %></div>
+    </td>
+  </tr>
+<% } %>

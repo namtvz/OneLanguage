@@ -22,4 +22,5 @@
 //= require tokenizer
 //= require core
 //= require pubnub.js
+//= require_tree ../templates
 //= require_tree .

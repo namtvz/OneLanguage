@@ -5,7 +5,10 @@ class AttachmentsController < ApplicationController
     attachments = []
     params[:files].each do |file|
       attachment = Attachment.new
-      attachment.file = file
+      attachment.data = file
+
+      attachment.user = current_user
+      attachment.channel_id = params[:channel_id]
 
       attachment.save
 
