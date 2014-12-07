@@ -80,10 +80,6 @@ $partner-message-text-color: white;
           }
         }
 
-        .transition-arrow{
-          color: chocolate;
-        }
-
         padding: 5px;
         border-radius: 10px;
         border: 1px solid transparent;
@@ -103,6 +99,9 @@ $partner-message-text-color: white;
           text-align: left;
           .plain-text.old-text{
             color: $owner-message-text-color;
+          }
+          .transition-arrow{
+            color: brown;
           }
         }
         .arrow {
@@ -125,6 +124,10 @@ $partner-message-text-color: white;
 
           .plain-text.old-text{
             color: $partner-message-text-color;
+          }
+
+          .transition-arrow{
+            color: black;
           }
         }
         .arrow {

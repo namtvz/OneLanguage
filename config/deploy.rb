@@ -21,7 +21,7 @@ set :app_path, lambda { "#{deploy_to}/#{current_path}" }
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'config/application.yml', 'log']
+set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'config/application.yml', 'log', 'public/system']
 
 # Optional settings:
 set :user, 'xuanchien'    # Username in the server to SSH to.
@@ -48,6 +48,9 @@ task :setup => :environment do
 
   queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
+
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/public/system"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/public/system"]
 
   queue! %[mkdir -p "#{deploy_to}/shared/tmp/pids"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/tmp"]
@@ -86,6 +89,7 @@ task :deploy => :environment do
       invoke :'puma:restart'
       invoke :'clockwork:stop'
       invoke :'clockwork:start'
+      invoke :'delayed_job:restart'
     end
   end
 end
@@ -113,15 +117,24 @@ end
 namespace :clockwork do
   task :start do
     queue 'echo "-----> Start Clockwork"'
-    queue "cd #{app_path} && RAILS_ENV=#{stage} bundle exec clockwork -c config/clockwork.rb start --log"
+    queue "cd #{app_path} && RAILS_ENV=#{stage} bundle exec clockworkd -c config/clockwork.rb start --log"
   end
 
   desc "Stop the application"
   task :stop do
     queue 'echo "-----> Stop Clockwork"'
-    queue "cd #{app_path} && RAILS_ENV=#{stage} bundle exec clockwork -c config/clockwork.rb stop"
+    queue "cd #{app_path} && RAILS_ENV=#{stage} bundle exec clockworkd -c config/clockwork.rb stop"
   end
 end
+
+namespace :delayed_job do
+  desc "Restart delayed job"
+  task :restart do
+    queue 'echo "-----> Restart delayed job"'
+    queue "cd #{app_path} && RAILS_ENV=#{stage} && bin/delayed_job restart"
+  end
+end
+
 # For help in making your deploy script, see the Mina documentation:
 #
 #  - http://nadarei.co/mina
