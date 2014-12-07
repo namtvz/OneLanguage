@@ -4,9 +4,9 @@
 OneLanguage.onReady ->
   chatContentContainer = $(".chat-content")
 
-  chatContentContainer.height($(window).height() - 300)
+  chatContentContainer.height($(window).height() - 350)
   $(window).resize ->
-    chatContentContainer.height($(window).height() - 300)
+    chatContentContainer.height($(window).height() - 350)
 
   initSearchUserAutoComplete = ->
     $('.search-partner, .search-translator').each ->
