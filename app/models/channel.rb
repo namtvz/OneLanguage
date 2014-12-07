@@ -28,6 +28,7 @@ class Channel < ActiveRecord::Base
 
   # Callbacks
   before_create :ensure_partner_access_code, :ensure_translator_access_code, :ensure_uuid
+  after_create :listen_to_online_status
 
   # Class methods
   def self.data_for_token token
@@ -51,30 +52,50 @@ class Channel < ActiveRecord::Base
 
   def self.update_online_status
     self.find_each do |channel|
-      PubnubService.instance.presence(
-        channel: channel.uuid
-      ) do |envelop|
-        action = envelop.message['action']
+      channel.update_online_status
+    end
+  end
 
-        if action == 'join' || action == 'leave'
-          is_online = action == 'join'
-
-          case envelop.message['uuid']
-            when channel.owner_uuid
-              channel.owner_online = is_online
-            when channel.translator_uuid
-              channel.translator_online = is_online
-            when channel.partner_uuid
-              channel.partner_online = is_online
-          end
-
-          channel.save
-        end
+  def self.update_online_on_start
+    self.find_each do |channel|
+      PubnubService.instance.here_now(channel: channel.uuid) do |envelop|
+        uuids = envelop.parsed_response['uuids']
+        channel.owner_online = false
+        channel.translator_online = false
+        channel.partner_online = false
+        channel.owner_online = uuids.include?(channel.owner_uuid)
+        channel.translator_online = uuids.include?(channel.translator_uuid)
+        channel.partner_online = uuids.include?(channel.partner_uuid)
+        channel.save
       end
     end
   end
 
+
   # Instance methods
+  def update_online_status
+    PubnubService.instance.presence(channel: self.uuid) do |envelop|
+      action = envelop.message['action']
+
+      if action == 'join' || action == 'leave'
+        is_online = action == 'join'
+        channel = Channel.find_by_id self.id
+        return if !channel
+
+        case envelop.message['uuid']
+          when channel.owner_uuid
+            channel.owner_online = is_online
+          when channel.translator_uuid
+            channel.translator_online = is_online
+          when channel.partner_uuid
+            channel.partner_online = is_online
+        end
+
+        channel.save
+      end
+    end
+  end
+
   def who_is? user
     case user.id
     when owner_id
@@ -121,5 +142,10 @@ class Channel < ActiveRecord::Base
       self.translator_uuid = SecureRandom.hex UUID_LENGTH
       break unless Channel.find_by_translator_uuid self.translator_uuid
     end
+  end
+
+  def listen_to_online_status
+    self.update_online_status
+    true
   end
 end
