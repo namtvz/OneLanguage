@@ -61,9 +61,13 @@ class Channel < ActiveRecord::Base
       PubnubService.instance.here_now(channel: channel.uuid) do |envelop|
         uuids = envelop.parsed_response['uuids']
         channel.owner_online = false
-        channel.translator_online = false
-        channel.partner_online = false
-        channel.owner_online = uuids.include?(channel.owner_uuid)
+        if uuids.include?(channel.owner_uuid)
+          channel.owner_online = true
+          channel.owner_offline_at = nil
+        else
+          channel.owner_offline_at = Time.now if !channel.owner_offline_at
+        end
+
         channel.translator_online = uuids.include?(channel.translator_uuid)
         channel.partner_online = uuids.include?(channel.partner_uuid)
         channel.save
@@ -85,6 +89,11 @@ class Channel < ActiveRecord::Base
         case envelop.message['uuid']
           when channel.owner_uuid
             channel.owner_online = is_online
+            if is_online
+              channel.owner_offline_at = nil
+            else
+              channel.owner_offline_at = Time.now
+            end
           when channel.translator_uuid
             channel.translator_online = is_online
           when channel.partner_uuid
