@@ -3,7 +3,7 @@
     .navbar-form.navbar-right
       %form
         .form-group
-          %input.form-control{type: 'text', name: 'term', placeholder: 'Search', value: params[:term]}
+          %input.form-control{type: 'text', name: 'term', placeholder: 'Search', value: @term}
           %button.btn.btn-default{type: 'submit'} GO
           %a.btn.btn-primary.btn-create(data-toggle="modal" data-target="#new-channel-modal")
             Create Channel

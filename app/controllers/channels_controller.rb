@@ -24,12 +24,20 @@ class ChannelsController < ApplicationController
   def show
     @owner_acc = @channel.owner
     @role = @channel.who_is? current_user
+    if (@role == 'partner' && @channel.partner_uuid) || (@role == 'translator' && @channel.translator_uuid) || (@role == 'owner' && @channel.owner_uuid)
+      flash[:error] = 'You or someone is already using this channel. Did you use this link in 2 tabs?'
+      redirect_to root_path and return
+    end
+
     case @role
     when 'owner'
+      @channel.owner_uuid = current_user.id
       @owner = true
     when 'translator'
+      @channel.translator_uuid = current_user.id
       @translator = true
     when 'partner'
+      @channel.partner_uuid = current_user.id
       @partner = true
     end
   end

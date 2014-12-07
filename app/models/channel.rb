@@ -49,6 +49,12 @@ class Channel < ActiveRecord::Base
     end
   end
 
+  def self.update_online_status
+    self.find_each do
+    end
+  end
+
+  # Instance methods
   def who_is? user
     case user.id
     when owner_id

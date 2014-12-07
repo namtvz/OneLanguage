@@ -15,18 +15,23 @@ class InvitationsController < ApplicationController
           respond_already_joined
         else
           if user_signed_in?
-            if @role == 'partner'
-              @channel.partner_id = current_user.id
-            else # Translator
-              @channel.translator_id = current_user.id
+            if ![@channel.owner_id, @channel.partner_id, @channel.translator_id].include? current_user.id
+              if @role == 'partner'
+                @channel.partner_id = current_user.id
+              else # Translator
+                @channel.translator_id = current_user.id
+              end
+              @channel.save
             end
-            @channel.save
+
             redirect_to @channel
           else # Not logged user
             session[:return_url] = invitation_path(access_code)
             if @role == 'partner'
               render
             else
+              flash[:invitation_info] = "#{@channel.owner.name} invited you into a channel as Translator. Signin or create an account to join it."
+
               redirect_to new_user_session_path
             end
           end
@@ -49,11 +54,13 @@ class InvitationsController < ApplicationController
 
   private
   def respond_invalid_token
-    render text: 'Invalid'
+    flash[:error] = 'Invalid token. Did you use wrong link?'
+    redirect_to root_path
   end
 
   def respond_already_joined
-    render text: 'Joined'
+    flash[:error] = 'You or someone is already using this channel. Did you use this link in 2 tabs?'
+    redirect_to root_path
   end
 
   def valid_role?(channel_data)

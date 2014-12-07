@@ -55,3 +55,5 @@ gem 'language_list', '~> 1.0.0'
 gem 'friendly_id', '~> 5.0.4'
 
 gem 'ejs', '~> 1.1.0'
+
+gem 'delayed_job', '~> 4.0.4'
