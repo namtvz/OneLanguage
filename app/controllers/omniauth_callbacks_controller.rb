@@ -11,12 +11,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
           session.delete(:is_guest)
         end
         if @user.persisted?
-          if session[:return_url].present?
+          return_url = session.delete :return_url
+          if return_url.present?
             sign_in @user
-            redirect_to session[:return_url] and return
+            redirect_to return_url and return
           else
             sign_in_and_redirect @user, event: :authentication and return
-          end          
+          end
           set_flash_message(:notice, :success, kind: #{provider}.capitalize) if is_navigational_format?
         else
           session["devise.#{provider}_data"] = env["omniauth.auth"]

@@ -12,6 +12,7 @@ class RegistrationsController < Devise::RegistrationsController
       end
       if resource.active_for_authentication?
         location_path = session[:return_url].present? ? session[:return_url] : after_sign_up_path_for(resource)
+        session[:return_url] = nil
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_up(resource_name, resource)
         respond_with resource, :location => location_path
