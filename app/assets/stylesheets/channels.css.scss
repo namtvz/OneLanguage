@@ -142,12 +142,17 @@ $message-content-color: antiquewhite;
   }
   .chat-footer{
     margin-top: 10px;
+    .upload-wrapper{
+      display: inline-block;
+      font-size: 24px;
+      top: -27px;
+    }
   }
 
 }
 
 textarea#chat-input {
-  width: 500px;
+  width: 552px;
 }
 textarea.translate-input {
   width: 100%;

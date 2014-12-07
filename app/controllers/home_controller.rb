@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     names = LANGUAGES
 
     if params[:keyword]
-      names = names.select{|n| n.include?(params[:keyword])}
+      names = names.select{|n| n.downcase.include?(params[:keyword].downcase)}
     end
 
     render json: {languages: names}

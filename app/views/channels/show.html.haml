@@ -226,15 +226,4 @@
 
 
 :javascript
-  $(document).ready(function(){
-    resizeTable();
-    $(window).resize(function(){
-      resizeTable();
-    });
-  });
-  function resizeTable(){
-    maxHeight = $(window).height() - 300
-    $('.channel-table tbody').css({'max-height': maxHeight});
-  }
-
-  new Uploader(#{@channel.id}, #{@channel.uuid}, '#{@role}');
+  new Uploader(#{@channel.id}, '#{@channel.uuid}', '#{@role}');

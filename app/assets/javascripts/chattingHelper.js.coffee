@@ -17,6 +17,7 @@ class @ChattingHelper
       @showMessageForTranslator(m)
     else
       @showMessageForPartner(m)
+
     $('.chat-content').scrollTop(1e10);
 
   showMessageForTranslator: (m) ->
@@ -55,4 +56,6 @@ class @ChattingHelper
   showAttachmentMessage: (message) ->
     tr = @attachmentMessageTemplate({message: message, isFromOwner: (message.sender_role is 'owner')})
     @chattingTable.append(tr)
+
+    $('.chat-content').scrollTop(1e10);
 
