@@ -21,7 +21,7 @@ set :app_path, lambda { "#{deploy_to}/#{current_path}" }
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
+set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'config/application.yml', 'log']
 
 # Optional settings:
 set :user, 'xuanchien'    # Username in the server to SSH to.
@@ -65,6 +65,9 @@ task :setup => :environment do
 
   queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/secrets.yml'."]
+
+  queue! %[touch "#{deploy_to}/#{shared_path}/config/application.yml"]
+  queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/application.yml'."]
 end
 
 desc "Deploys the current version to the server."
