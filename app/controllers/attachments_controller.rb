@@ -15,6 +15,6 @@ class AttachmentsController < ApplicationController
       attachments << attachment
     end
 
-    render json: {attachments: attachments}
+    render json: {attachments: attachments.as_json(methods: :full_url)}
   end
 end

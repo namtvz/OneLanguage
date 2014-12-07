@@ -13,6 +13,8 @@ $message-content-color: antiquewhite;
     }
   }
   .chat-content {
+    border-radius: 3px;
+    border: 1px solid #CCC;
     overflow-y: auto;
     width: 101%;
     .channel-table  {
@@ -60,14 +62,10 @@ $message-content-color: antiquewhite;
         padding: 20px 5px 5px 5px;
       }
       tr td{
-        border-left: 1px solid $table-border-color;
         border-right: 1px solid $table-border-color;
       }
       tr:first-child td{
         border-top: 1px solid $table-border-color;
-      }
-      tr:last-child td{
-        border-bottom: 1px solid $table-border-color;
       }
       tr:hover {
         background: lightgreen;
@@ -76,6 +74,10 @@ $message-content-color: antiquewhite;
         vertical-align: top;
       }
       .message-content {
+        .plain-text{
+          white-space: pre-line;
+        }
+
         padding: 5px;
         border-radius: 10px;
         border: 1px solid transparent;

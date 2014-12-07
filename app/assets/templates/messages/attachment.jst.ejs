@@ -1,0 +1,28 @@
+<tr class="<%= isFromOwner ? 'from-owner' : 'from-partner' %>" id="<%= message.message_ref %>">
+  <td class="owner-td">
+    <div class="message-content">
+      <div class="arrow"></div>
+      <a href='<%= message.url %>' target="_blank">
+        <i class="fa fa-paperclip"/>
+        <%= message.file_name %>
+        <% if (message.content_type && message.content_type.match(/image/).length > 0){ %>
+          <img src="<%= message.url %>" width="100px" />
+        <% } %>
+      </a>
+    </div>
+    <div class="message-time"><%= timeAgo(message.message_ref) %></div>
+  </td>
+  <td class="translator-td"></td>
+  <td class="partner-td">
+    <div class="message-content">
+      <div class="arrow"></div>
+      <a href='<%= message.url %>' target="_blank">
+        <i class="fa fa-paperclip"/>
+        <%= message.file_name %>
+        <% if (message.content_type && message.content_type.match(/image/).length > 0){ %>
+          <img src="<%= message.url %>" width="100px" />
+        <% } %>
+      </a>
+    </div>
+  </td>
+</tr>

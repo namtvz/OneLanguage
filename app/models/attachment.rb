@@ -4,4 +4,8 @@ class Attachment < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :channel
+
+  def full_url
+    data.url
+  end
 end

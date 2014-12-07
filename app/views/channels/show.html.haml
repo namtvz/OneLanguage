@@ -77,7 +77,7 @@
   }
 
   function showAttachment(m){
-
+    chattingHelper.showAttachmentMessage(m);
   }
 
   function toggleOnlineUser(m, isOnline){
@@ -172,7 +172,7 @@
       window.location = '/';
     });
 
-    chattingHelper = new ChattingHelper("#{@role}", $('.channel-table'), g_currentUser)
+    chattingHelper = new ChattingHelper("#{@role}", $('.channel-table tbody'), g_currentUser)
     messenger = new Messenger('pub-c-547232aa-3488-4d2d-8cbb-2fd4072a0697', 'sub-c-ccf40038-78ac-11e4-a5ea-02ee2ddab7fe');
     messenger.connect(g_currentUser.id);
 
@@ -204,9 +204,8 @@
       messages = messages[0];
 
       for(var i = 0; i < messages.length; i++) {
-        if(messages[i].type == 'message'){
-          showMessage(messages[i])
-        }
+        handleMessage(messages[i])
+
       }
     });
 
@@ -238,4 +237,4 @@
     $('.channel-table tbody').css({'max-height': maxHeight});
   }
 
-  new Uploader(#{@channel.id}, #{@channel.uuid})
+  new Uploader(#{@channel.id}, #{@channel.uuid}, '#{@role}');

@@ -8,8 +8,10 @@
 class @ChattingHelper
   constructor: (@role, @chattingTable, @user) ->
     @ownerMessageTemplate = JST["messages/owner"]
+
     @translatorMessageTemplate = JST["messages/translator"]
 
+    @attachmentMessageTemplate = JST["messages/attachment"]
   showMessage: (m) ->
     if @role is 'translator'
       @showMessageForTranslator(m)
@@ -20,7 +22,7 @@ class @ChattingHelper
   showMessageForTranslator: (m) ->
     if m.sender_id is @user.id
       tr = $('tr#' + m.message_ref)
-      tr.find('textarea').val(m.message)
+      tr.find('textarea').val(m.message.trim())
       tr.find('textarea').prop('disabled', true)
       if m.original_role is 'owner'
         tr.find('td.partner-td').append('
@@ -50,5 +52,7 @@ class @ChattingHelper
       tr = @ownerMessageTemplate({message: m, isOwner: (m.sender_id is @user.id)})
       @chattingTable.append(tr)
     return
-
+  showAttachmentMessage: (message) ->
+    tr = @attachmentMessageTemplate({message: message, isFromOwner: (message.sender_role is 'owner')})
+    @chattingTable.append(tr)
 
