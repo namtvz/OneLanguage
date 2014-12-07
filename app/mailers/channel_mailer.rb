@@ -1,5 +1,5 @@
 class ChannelMailer < ActionMailer::Base
-  default from: "<OneLanguage>onelanguage@nustechnology.com"
+  default from: "<1Language> OneLanguage@nustechnology.com"
   def send_invitation channel, email, type
     @channel = channel
     @email = email

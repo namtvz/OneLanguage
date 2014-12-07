@@ -224,6 +224,9 @@
 
 
   $(function(){
+    $('.chat-content').scrollBottom(function(){
+
+    });
     chattingHelper = new ChattingHelper("#{@role}", $('.channel-table tbody'), g_currentUser)
     messenger = new Messenger('pub-c-547232aa-3488-4d2d-8cbb-2fd4072a0697', 'sub-c-ccf40038-78ac-11e4-a5ea-02ee2ddab7fe');
     messenger.connect(g_currentUser.id);
@@ -338,6 +341,7 @@
       if(#{@channel.ended_at.present?}){
         $('textarea').prop('disabled', true);
       }
+      $(".chat-content").scrollTop(1e10)
     });
 
     // Send message subscribe

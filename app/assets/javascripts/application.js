@@ -20,6 +20,7 @@
 //= require jquery.iframe-transport
 //= require jquery.fileupload
 //= require jquery.autosize
+//= require jquery.scrollBottom
 //= require tokenizer
 //= require core
 //= require pubnub.js

@@ -24,8 +24,10 @@ class @ChattingHelper
     if @role is 'translator'
       @showMessageForTranslator(m)
     else
+      isScroll = $('.chat-content').data().scrollBottom.reached_bottom
       @showMessageForPartner(m)
-      $('.chat-content').scrollTop(1e10);
+      if(isScroll)
+        $('.chat-content').scrollTop(1e10);
 
     $('.chat-content textarea').autosize
       append: false
@@ -69,9 +71,11 @@ class @ChattingHelper
       @updateOrAppendNewMessage(m, messageContainer)
 
     else
+      isScroll = $('.chat-content').data().scrollBottom.reached_bottom
       tr = @translatorMessageTemplate({message: m, isFromOwner: (m.sender_role is 'owner')})
       @chattingTable.append(tr)
-      $(".chat-content").scrollTop(1e10)
+      if isScroll
+        $(".chat-content").scrollTop(1e10)
     return
 
   showMessageForPartner: (m) ->
