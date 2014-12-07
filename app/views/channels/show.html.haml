@@ -23,7 +23,7 @@
 :javascript
   var role = "#{@role}";
   var g_currentUser = {
-    id: #{current_user.id},
+    id: '#{@uuid}',
     name: "#{current_user.name}",
     role: "#{@role}"
   };

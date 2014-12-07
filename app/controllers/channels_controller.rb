@@ -15,7 +15,7 @@ class ChannelsController < ApplicationController
   def create
     channel = Channel.new channel_params
     if channel.save
-      redirect_to channel_path(channel.id)
+      redirect_to channel_path(channel)
     else
       redirect_to channels_path
     end
@@ -24,21 +24,22 @@ class ChannelsController < ApplicationController
   def show
     @owner_acc = @channel.owner
     @role = @channel.who_is? current_user
-    if (@role == 'partner' && @channel.partner_uuid) || (@role == 'translator' && @channel.translator_uuid) || (@role == 'owner' && @channel.owner_uuid)
+
+    if (@role == 'partner' && @channel.partner_online) || (@role == 'translator' && @channel.translator_online) || (@role == 'owner' && @channel.owner_online)
       flash[:error] = 'You or someone is already using this channel. Did you use this link in 2 tabs?'
       redirect_to root_path and return
     end
 
     case @role
     when 'owner'
-      @channel.owner_uuid = current_user.id
       @owner = true
+      @uuid = @channel.owner_uuid
     when 'translator'
-      @channel.translator_uuid = current_user.id
       @translator = true
+      @uuid = @channel.translator_uuid
     when 'partner'
-      @channel.partner_uuid = current_user.id
       @partner = true
+      @uuid = @channel.partner_uuid
     end
   end
 

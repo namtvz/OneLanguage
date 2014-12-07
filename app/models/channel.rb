@@ -50,7 +50,27 @@ class Channel < ActiveRecord::Base
   end
 
   def self.update_online_status
-    self.find_each do
+    self.find_each do |channel|
+      PubnubService.instance.presence(
+        channel: channel.uuid
+      ) do |envelop|
+        action = envelop.message['action']
+
+        if action == 'join' || action == 'leave'
+          is_online = action == 'join'
+
+          case envelop.message['uuid']
+            when channel.owner_uuid
+              channel.owner_online = is_online
+            when channel.translator_uuid
+              channel.translator_online = is_online
+            when channel.partner_uuid
+              channel.partner_online = is_online
+          end
+
+          channel.save
+        end
+      end
     end
   end
 
@@ -85,6 +105,21 @@ class Channel < ActiveRecord::Base
     loop do
       self.uuid = SecureRandom.hex UUID_LENGTH
       break unless Channel.find_by_uuid self.uuid
+    end
+
+    loop do
+      self.owner_uuid = SecureRandom.hex UUID_LENGTH
+      break unless Channel.find_by_owner_uuid self.owner_uuid
+    end
+
+    loop do
+      self.partner_uuid = SecureRandom.hex UUID_LENGTH
+      break unless Channel.find_by_partner_uuid self.partner_uuid
+    end
+
+    loop do
+      self.translator_uuid = SecureRandom.hex UUID_LENGTH
+      break unless Channel.find_by_translator_uuid self.translator_uuid
     end
   end
 end
