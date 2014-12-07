@@ -145,14 +145,14 @@ class @ChattingHelper
     tr.find('textarea').val(m.message)
     tr.find('textarea').attr("old-message", m.message)
 
-    messageContainer = if m.original_role is 'owner'
+    messageContainer = if (m.original_role is 'owner' || m.original_sender_id == @user.id)
       tr.find('td.partner-td')
     else
       tr.find('td.owner-td')
 
     @updateOrAppendNewMessage(m, messageContainer)
 
-    isOnLeftSide = (m.original_role != 'owner' || @role == 'partner' )
+    isOnLeftSide = (m.original_role != 'owner' && m.original_sender_id != @user.id )
 
     tr = @editNotificationTemplate({message: m, isOnLeftSide: isOnLeftSide})
 
