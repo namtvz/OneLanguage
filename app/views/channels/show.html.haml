@@ -1,8 +1,14 @@
 - def randMessage()
   - [true, false].sample ? Faker::Lorem.sentence : ""
+
 .alert.alert-warning{class: "#{@channel.ended_at ? '' : 'display-none'}"}
   %button.close{"data-dismiss" => "alert"}> ×
   This conversation was ended. You're in read only mode.
+
+- content_for :channel_name do
+  .channel-name-title
+    = @channel.name.truncate(70)
+
 .channel-show
   .chat-header
     = render "header"
