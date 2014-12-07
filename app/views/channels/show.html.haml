@@ -24,7 +24,8 @@
   var g_currentUser = {
     id: '#{@uuid}',
     name: "#{current_user.name}",
-    role: "#{@role}"
+    role: "#{@role}",
+    avatar: "/assets/#{current_user.avatar.url}"
   };
   var messenger = null,
     chattingHelper = null,
@@ -91,6 +92,21 @@
 
   function toggleOnlineUser(m, isOnline){
     if(isOnline){
+      //Create if this user of this role is not exist
+      if(!$('.user-updated#avatar-' + m.uuid).size()){
+        console.log(m)
+        user = {
+          avatar_type: m.role + "-avatar_type",
+          avatar_url: m.avatar,
+          channel_user_id: m.uuid,
+          channel_language: (m.role == "partner" ? "#{@channel.partner_language}" : ""),
+          name: m.name
+        }
+        templete = JST["channels/user_info"]({user: user, is_exist: true});
+        $('.' + m.role +'-info-area').empty();
+        $('.' + m.role +'-info-area').append(templete);
+      }
+
       $('.' + m.role + '-avatar').attr('id', 'avatar-' + m.uuid);
       $('.' + m.role + '-avatar').addClass('online');
     }else{
@@ -298,7 +314,9 @@
     var message = {
       uuid: g_currentUser.id,
       role: "#{@role}",
-      type: 'user_subscribe'
+      type: 'user_subscribe',
+      name: g_currentUser.name,
+      avatar: g_currentUser.avatar
     }
 
     messenger.publish({

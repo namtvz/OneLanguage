@@ -37,7 +37,7 @@ OneLanguage.onReady ->
         invite_type: 'partner'
       success: (data)->
         $('#parner-invite-modal').modal('hide')
-        templete = JST["channels/user_info"]({user: data.user})
+        templete = JST["channels/user_info"]({user: data.user, is_exist: data.is_exist})
         $('.partner-info-area').empty()
         $('.partner-info-area').append(templete)
 
@@ -54,6 +54,6 @@ OneLanguage.onReady ->
         invite_type: 'translator'
       success: (data)->
         $('#translator-invite-modal').modal('hide')
-        templete = JST["channels/user_info"]({user: data.user})
+        templete = JST["channels/user_info"]({user: data.user, is_exist: data.is_exist})
         $('.translator-info-area').empty()
         $('.translator-info-area').append(templete)

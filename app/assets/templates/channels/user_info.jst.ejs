@@ -1,6 +1,6 @@
 &nbsp;
 <div class='clearfix'></div>
-<img class='thumbnail-img <%=user.avatar_type %>' src='<%=user.avatar_url %>' id='avatar-<%= user.channel_user_id %>' />
+<img class='thumbnail-img <%=user.avatar_type %> <%= is_exist ? "user-updated" : ""%>' src='<%=user.avatar_url %>' id='avatar-<%= user.channel_user_id %>' />
 <div class='clearfix'></div>
 <% if(user.channel_language) { %>
   <%= user.name %> (<%= user.channel_language %>)
