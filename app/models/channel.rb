@@ -109,7 +109,7 @@ class Channel < ActiveRecord::Base
 
       if action == 'join' || action == 'leave'
         is_online = action == 'join'
-        channel = Channel.find_by_id self.id
+        channel = Channel.where(id: self.id).first
         return if !channel
 
         case envelop.message['uuid']
@@ -125,7 +125,9 @@ class Channel < ActiveRecord::Base
           when channel.partner_uuid
             channel.partner_online = is_online
         end
-
+        if channel.owner_online && channel.partner_online && channel.translator_online
+          channel.started_at = Time.now if !channel.started_at
+        end
         channel.save
       end
     end

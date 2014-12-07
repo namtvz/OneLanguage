@@ -12,3 +12,12 @@
     = render 'normal_channel_list', channels: @channels
 
 = render "new_channel_modal"
+:javascript
+  $(function(){
+    $.each($('.time-text'), function(i,e){
+      var timeText = $(e).text();
+      if(timeText.trim().length > 0){
+        $(e).text(moment(timeText).format("LLL"));
+      }
+    })
+  });
