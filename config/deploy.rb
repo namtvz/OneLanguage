@@ -84,6 +84,8 @@ task :deploy => :environment do
 
     to :launch do
       invoke :'puma:restart'
+      invoke :'clockwork:stop'
+      invoke :'clockwork:start'
     end
   end
 end
@@ -105,6 +107,19 @@ namespace :puma do
   task :restart do
     queue 'echo "-----> Restart Puma"'
     queue "cd #{app_path} && RAILS_ENV=#{stage} && bin/puma.sh restart"
+  end
+end
+
+namespace :clockwork do
+  task :start do
+    queue 'echo "-----> Start Clockwork"'
+    queue "cd #{app_path} && RAILS_ENV=#{stage} bundle exec clockwork -c config/clockwork.rb start --log"
+  end
+
+  desc "Stop the application"
+  task :stop do
+    queue 'echo "-----> Stop Clockwork"'
+    queue "cd #{app_path} && RAILS_ENV=#{stage} bundle exec clockwork -c config/clockwork.rb stop"
   end
 end
 # For help in making your deploy script, see the Mina documentation:

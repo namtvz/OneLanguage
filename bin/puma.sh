@@ -28,9 +28,9 @@ case "$1" in
     echo "Starting puma..."
       rm -f $PUMA_SOCKET
       if [ -e $PUMA_CONFIG_FILE ] ; then
-        bundle exec puma -C $PUMA_CONFIG_FILE
+        NEED_UPDATE_ONLINE=true bundle exec puma -C $PUMA_CONFIG_FILE
       else
-        bundle exec puma
+        NEED_UPDATE_ONLINE=true bundle exec puma
       fi
 
     echo "done"
