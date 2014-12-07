@@ -1,6 +1,8 @@
 class Channel < ActiveRecord::Base
   ACCESS_CODE_LENGTH = 32
   UUID_LENGTH = 10
+  MAX_OFFLINE_TIME_ALLOW = 30.minutes
+
   paginates_per 10
 
   extend FriendlyId
@@ -51,21 +53,21 @@ class Channel < ActiveRecord::Base
   end
 
   def self.update_online_status
-    self.find_each do |channel|
+    self.where(ended_at: nil).find_each do |channel|
       channel.update_online_status
     end
   end
 
   def self.update_online_on_start
-    self.find_each do |channel|
+    self.where(ended_at: nil).find_each do |channel|
       PubnubService.instance.here_now(channel: channel.uuid) do |envelop|
         uuids = envelop.parsed_response['uuids']
         channel.owner_online = false
         if uuids.include?(channel.owner_uuid)
           channel.owner_online = true
-          channel.owner_offline_at = nil
+          channel.offline_at = nil
         else
-          channel.owner_offline_at = Time.now if !channel.owner_offline_at
+          channel.offline_at = Time.now if !channel.offline_at
         end
 
         channel.translator_online = uuids.include?(channel.translator_uuid)
@@ -75,8 +77,32 @@ class Channel < ActiveRecord::Base
     end
   end
 
+  def self.end_inactive_channels
+    p "IN END INACTIVE"
+    Channel.transaction do
+      self.where("offline_at IS NOT NULL AND offline_at <= ?", Time.now - MAX_OFFLINE_TIME_ALLOW).where(ended_at: nil).find_each do |channel|
+        channel.end_channel
+      end
+    end
+  end
 
   # Instance methods
+  def end_channel
+    now = Time.now
+    self.ended_at = now
+    self.started_at = now if !self.started_at
+    self.owner_online = false
+    self.partner_online = false
+    self.translator_online = false
+    self.save
+
+    PubnubService.instance.publish(
+      channel: self.uuid,
+      http_sync: false,
+      message: {type: 'end_channel'},
+     ) {}
+  end
+
   def update_online_status
     PubnubService.instance.presence(channel: self.uuid) do |envelop|
       action = envelop.message['action']
@@ -90,9 +116,9 @@ class Channel < ActiveRecord::Base
           when channel.owner_uuid
             channel.owner_online = is_online
             if is_online
-              channel.owner_offline_at = nil
+              channel.offline_at = nil
             else
-              channel.owner_offline_at = Time.now
+              channel.offline_at = Time.now
             end
           when channel.translator_uuid
             channel.translator_online = is_online

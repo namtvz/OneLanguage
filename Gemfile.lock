@@ -43,6 +43,9 @@ GEM
     builder (3.2.2)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    clockwork (1.1.0)
+      activesupport
+      tzinfo
     cocaine (0.5.4)
       climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.0)
@@ -215,6 +218,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-kaminari-views (~> 0.0.5)
+  clockwork (~> 1.1.0)
   coffee-rails (~> 4.0.0)
   delayed_job (~> 4.0.4)
   delayed_job_active_record (~> 4.0.2)
