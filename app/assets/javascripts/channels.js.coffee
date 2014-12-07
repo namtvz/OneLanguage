@@ -7,3 +7,14 @@ OneLanguage.onReady ->
   chatContentContainer.height($(window).height() - 300)
   $(window).resize ->
     chatContentContainer.height($(window).height() - 300)
+
+  initSearchUserAutoComplete = ->
+    $('.search-people').each ->
+      if $(this).data().translator
+        source = "/search_users?cnid=#{$(this).data().cnid}"
+      else
+        source = "/search_users"
+      $(this).autocomplete
+        source: source
+        minLength: 0
+  initSearchUserAutoComplete()

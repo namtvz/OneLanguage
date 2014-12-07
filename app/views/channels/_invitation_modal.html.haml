@@ -10,7 +10,8 @@
         .form-group
           %label URL
           %input{class: 'form-control', readonly: true, value: @channel.partner_access_code}
-
+          %label People
+          %input{class: 'form-control search-people', placeholder: 'Enter name or email for searching...'}
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
         %button.btn.btn-primary.create-new-channel{:type => "submit"} Invite
@@ -23,12 +24,13 @@
         %button.close{"data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
           %span.sr-only Close
-        %h4#myModalLabel.modal-title Invite Partner
+        %h4#myModalLabel.modal-title Invite Translator
       .modal-body
         .form-group
           %label URL
           %input{class: 'form-control', readonly: true, value: @channel.translator_access_code}
-
+          %label People
+          %input{class: 'form-control search-people', placeholder: 'Enter name or email for searching...', data: {translator: "true", cnid: @channel.id}}
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
         %button.btn.btn-primary.create-new-channel{:type => "submit"} Invite

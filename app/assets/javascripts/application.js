@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery.validate.min
+//= require jquery-ui
 //= require jquery.ui.widget
 //= require jquery.iframe-transport
 //= require jquery.fileupload

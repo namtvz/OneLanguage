@@ -19,4 +19,5 @@ Rails.application.routes.draw do
 
   get '/search_languages' => 'home#search_languages'
   resources :invitations, only: [:show, :create]
+  get '/search_users' => 'home#search_users'
 end
