@@ -20,17 +20,17 @@ $message-content-color: antiquewhite;
     .channel-table  {
       width: 100%;
       tbody {
-        display: block;
+        // display: block;
         // max-height: 600px;
-        overflow: auto;
+        // overflow: auto;
       }
       // tbody, tr {
       //   width: 100%;
       // }
       &.two-column {
-        // tr td {
-        //   width: 45%;
-        // }
+        tr td {
+          width: 50%;
+        }
       }
       &.three-column {
         tr td {
@@ -55,7 +55,7 @@ $message-content-color: antiquewhite;
         }
       }
       &.two-column tr td:nth-child(2){
-        width: 40px;
+        width: 20px;
       }
 
       td {
@@ -141,11 +141,13 @@ $message-content-color: antiquewhite;
 
   }
   .chat-footer{
+    > * {
+      vertical-align: top;
+    }
     margin-top: 10px;
     .upload-wrapper{
       display: inline-block;
       font-size: 24px;
-      top: -27px;
     }
   }
 

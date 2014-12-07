@@ -3,10 +3,15 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 OneLanguage.onReady ->
   chatContentContainer = $(".chat-content")
-
-  chatContentContainer.height($(window).height() - 350)
+  if $('.chat-footer').size()
+    chatContentContainer.height($(window).height() - 300)
+  else
+    chatContentContainer.height($(window).height() - 250)
   $(window).resize ->
-    chatContentContainer.height($(window).height() - 350)
+    if $('.chat-footer').size()
+      chatContentContainer.height($(window).height() - 300)
+    else
+      chatContentContainer.height($(window).height() - 250)
 
   initSearchUserAutoComplete = ->
     $('.search-partner, .search-translator').each ->

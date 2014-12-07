@@ -1,12 +1,12 @@
 .row
   /Owner information
-  .col.col-md-4.text-left
+  .col.col-xs-4.text-left
     &nbsp;
     .clearfix
     = image_tag @owner_acc.avatar.url(:small), class: "thumbnail-img owner-avatar #{@owner_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.owner_id}"
     .clearfix
     = @owner_acc.name
-  .col.col-md-4.text-center
+  .col.col-xs-4.text-center
     - if @translator_acc
       %i.fa.fa-comments-o
       .clearfix
@@ -17,7 +17,7 @@
       .invite-button
         %button.btn.btn-primary(data-toggle="modal" data-target="#translator-invite-modal")
           Invite Translator
-  .col.col-md-4.text-right
+  .col.col-xs-4.text-right
     - if @partner_acc
       &nbsp;
       .clearfix
