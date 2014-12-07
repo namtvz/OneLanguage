@@ -16,12 +16,12 @@
       .form-group
         = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Password'
       .form-group
-        = f.submit "Sign In", class: "btn btn-primary btn-block"
+        = f.submit "Sign in", class: "btn btn-primary btn-block"
       %br
       .div
-        = link_to "Sign In with Facebook", "#{user_omniauth_authorize_path(:facebook)}", class: "btn btn-primary btn-block"
+        = link_to "Sign in with Facebook", "#{user_omniauth_authorize_path(:facebook)}", class: "btn btn-primary btn-block"
         %br
-        = link_to "Sign In with Google", "#{user_omniauth_authorize_path(:google_oauth2)}", class: "btn btn-primary btn-block"
+        = link_to "Sign in with Google", "#{user_omniauth_authorize_path(:google_oauth2)}", class: "btn btn-primary btn-block"
 %br
 .row
   .col-sm-3
