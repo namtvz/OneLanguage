@@ -12,6 +12,8 @@ class @ChattingHelper
     @translatorMessageTemplate = JST["messages/translator"]
 
     @attachmentMessageTemplate = JST["messages/attachment"]
+
+    @contentTemplate = JST["messages/content"]
   showMessage: (m) ->
     if @role is 'translator'
       @showMessageForTranslator(m)
@@ -22,18 +24,39 @@ class @ChattingHelper
     $('textarea').autosize
       append: false
 
+  updateOrAppendNewMessage: (message, messageContainer) ->
+    content = @contentTemplate({m: message})
+
+    if messageContainer.children().length > 0
+      #Remove older text
+      messageContainer.find(".old-text").remove()
+
+      #Mark the current text as old text
+      oldMessageDiv = messageContainer.find(".plain-text")
+      newMessageDiv = oldMessageDiv.clone()
+
+      oldMessageDiv.removeClass("new-text").addClass("old-text")
+
+      #Append the new text
+      newMessageDiv.removeClass("old-text").addClass("new-text").html(message.message)
+
+      messageContainer.find(".message-content").append(newMessageDiv)
+    else
+      messageContainer.append(content)
+
   showMessageForTranslator: (m) ->
     if m.sender_id is @user.id
       tr = $('tr#' + m.message_ref)
       tr.find('textarea').val(m.message)
-      #tr.find('textarea').prop('disabled', true)
       tr.find('textarea').trigger('autosize.resize')
 
-      content = '<div class="message-content"><div class="arrow"></div><span class="plain-text">' + m.message + '</span></div> <div class="message-time">' + timeAgo(m.message_ref) + '</div>'
-      if m.original_role is 'owner'
-        tr.find('td.partner-td').append(content)
+      messageContainer = if m.original_role is 'owner'
+        tr.find('td.partner-td')
       else
-        tr.find('td.owner-td').append(content)
+        tr.find('td.owner-td')
+
+      @updateOrAppendNewMessage(m, messageContainer)
+
     else
       tr = @translatorMessageTemplate({message: m, isFromOwner: (m.sender_role is 'owner')})
       @chattingTable.append(tr)
@@ -43,12 +66,12 @@ class @ChattingHelper
     if $('tr#' + m.message_ref).length > 0
       tr = $('tr#' + m.message_ref)
 
-      content = '<div class="message-content"><div class="arrow"></div>' + m.message + '</div> <div class="message-time">' + timeAgo(m.message_ref) + '</div>'
-
-      if m.sender_role is 'translator' and parseInt(m.original_sender_id) is @user.id
-        tr.find('td.partner-td').append(content)
+      messageContainer = if m.sender_role is 'translator' and parseInt(m.original_sender_id) is @user.id
+        tr.find('td.partner-td')
       else
-        tr.find('td.owner-td').append(content)
+        tr.find('td.owner-td')
+
+      @updateOrAppendNewMessage(m, messageContainer)
     else
       tr = @ownerMessageTemplate({message: m, isOwner: (m.sender_id is @user.id)})
       @chattingTable.append(tr)

@@ -77,6 +77,12 @@ $message-content-color: antiquewhite;
       .message-content {
         .plain-text{
           white-space: pre-line;
+          display: block;
+          &.old-text{
+            text-decoration: line-through;
+            font-style: italic;
+            color: #CCC;
+          }
         }
 
         padding: 5px;
