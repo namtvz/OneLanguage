@@ -3,18 +3,30 @@
   .col.col-md-4.text-left
     &nbsp;
     .clearfix
-    = image_tag @owner_acc.avatar.url(:small), class: 'thumbnail-img online'
+    = image_tag @owner_acc.avatar.url(:small), class: "thumbnail-img #{@owner_acc.id == current_user.id ? "online" : ""}"
     .clearfix
     = @owner_acc.name
   .col.col-md-4.text-center
-    %i.fa.fa-comments-o
-    .clearfix
-    = image_tag @translator_acc.avatar_url, class: 'thumbnail-img'
-    .clearfix
-    = @translator_acc.name
+    - if @translator_acc
+      %i.fa.fa-comments-o
+      .clearfix
+      = image_tag @translator_acc.avatar_url, class: "thumbnail-img #{@translator_acc.id == current_user.id ? "online" : ""}"
+      .clearfix
+      = @translator_acc.name
+    - else
+      .invite-button
+        %button.btn.btn-primary(data-toggle="modal" data-target="#translator-invite-modal")
+          Invite Translator
   .col.col-md-4.text-right
-    &nbsp;
-    .clearfix
-    = image_tag @partner_acc.avatar_url, class: 'thumbnail-img'
-    .clearfix
-    = @partner_acc.name
+    - if @partner_acc
+      &nbsp;
+      .clearfix
+      = image_tag @partner_acc.avatar_url, class: "thumbnail-img #{@partner_acc.id == current_user.id ? "online" : ""}"
+      .clearfix
+      = @partner_acc.name
+    - else
+      .invite-button
+        %button.btn.btn-primary(data-toggle="modal" data-target="#parner-invite-modal")
+          Invite Partner
+
+= render "invitation_modal"

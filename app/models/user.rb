@@ -19,8 +19,6 @@ class User < ActiveRecord::Base
 
   has_many :languages
 
-  attr_accessor :avatar_url
-
   # Class methods
   def self.find_for_oauth(auth, signed_in_resource = nil)
     # Get the identity and user if they exist
@@ -77,5 +75,9 @@ class User < ActiveRecord::Base
     else
       names.join(", ")
     end
+  end
+
+  def avatar_url
+    DEFAULT_IMAGE_URL
   end
 end

@@ -1,6 +1,6 @@
 %tr
   %td
-    = channel.name
+    = link_to channel.name, channel_path(channel.id)
   %td
     = channel.owner.name rescue ''
     - if is_me? channel.owner_id

@@ -2,13 +2,19 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 $table-border-color: #CCC;
-$message-content-color: beige;
+$message-content-color: antiquewhite;
 
 .channel-show {
   .chat-header {
     height: 100px;
+    .invite-button {
+      padding: 33px 0px;
+      margin: auto;
+    }
   }
   .chat-content {
+    overflow-y: auto;
+    width: 101%;
     .channel-table  {
       width: 100%;
       tbody {
@@ -36,9 +42,9 @@ $message-content-color: beige;
         border-bottom: none;
       }
       @media (min-width: 1200px){
-        tbody {
-          width: 1140px;
-        }
+        // tbody {
+        //   width: 1140px;
+        // }
         &.two-column tr td:not(:nth-child(2)){
           width: 550px;
         }
@@ -136,4 +142,8 @@ $message-content-color: beige;
     margin-top: 10px;
   }
 
+}
+
+textarea#chat-input {
+  width: 500px;
 }

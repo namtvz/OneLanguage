@@ -1,0 +1,35 @@
+#parner-invite-modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+          %span.sr-only Close
+        %h4#myModalLabel.modal-title Invite Partner
+      .modal-body
+        .form-group
+          %label URL
+          %input{class: 'form-control', readonly: true, value: @channel.partner_access_code}
+
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
+        %button.btn.btn-primary.create-new-channel{:type => "submit"} Invite
+
+
+#translator-invite-modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+          %span.sr-only Close
+        %h4#myModalLabel.modal-title Invite Partner
+      .modal-body
+        .form-group
+          %label URL
+          %input{class: 'form-control', readonly: true, value: @channel.translator_access_code}
+
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
+        %button.btn.btn-primary.create-new-channel{:type => "submit"} Invite
+
