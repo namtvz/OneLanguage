@@ -30,7 +30,8 @@
         .pull-right
           %button.btn.btn-primary(data-toggle="modal" data-target="#channel-link-modal")
             Get Channel Links
-          = link_to 'End This Conversation', end_conversation_channel_path(@channel), class: 'btn btn-danger', method: :put
+          = link_to end_conversation_channel_path(@channel), method: :put do
+            %button.btn.btn-danger End This Conversation
 
 = render "channel_link_modal"
 :javascript
