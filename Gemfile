@@ -50,3 +50,5 @@ gem 'kaminari', '~> 0.16.1'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 
 gem 'language_list', '~> 1.0.0'
+
+gem 'friendly_id', '~> 5.0.4'

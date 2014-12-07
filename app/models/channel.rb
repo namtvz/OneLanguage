@@ -1,6 +1,9 @@
 class Channel < ActiveRecord::Base
   ACCESS_CODE_LENGTH = 32
+  UUID_LENGTH = 10
   paginates_per 10
+
+  extend FriendlyId
 
   # Relationships
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
@@ -20,6 +23,8 @@ class Channel < ActiveRecord::Base
     search_query_parts << "(partners.name LIKE :term)"
     joins("LEFT JOIN users as owners ON owners.id = channels.owner_id").joins("LEFT JOIN users as partners ON partners.id = channels.partner_id").joins("LEFT JOIN users as translators ON translators.id = channels.translator_id").where([search_query_parts.join(' OR '), user_id: current_user.id, term: "%#{term}%"])
   }
+
+  friendly_id :uuid
 
   # Callbacks
   before_create :ensure_partner_access_code, :ensure_translator_access_code, :ensure_uuid
@@ -71,6 +76,9 @@ class Channel < ActiveRecord::Base
   end
 
   def ensure_uuid
-    self.uuid = Time.now.to_i.to_s
+    loop do
+      self.uuid = SecureRandom.hex UUID_LENGTH
+      break unless Channel.find_by_uuid self.uuid
+    end
   end
 end

@@ -23,7 +23,6 @@ class ChannelsController < ApplicationController
 
   def show
     @owner_acc = @channel.owner
-    @channel = Channel.find params[:id]
     @role = @channel.who_is? current_user
     case @role
     when 'owner'
@@ -48,7 +47,7 @@ class ChannelsController < ApplicationController
 
 private
   def find_channel
-    @channel = Channel.find(params[:id])
+    @channel = Channel.friendly.find(params[:id])
   end
   def channel_params
     channel_params = params[:channel].permit(:name, :owner_language, :partner_language)
