@@ -10,7 +10,7 @@
         %form#invite-partner-form
           .form-group
             %label URL
-            %input{class: 'form-control', readonly: true, value: @channel.partner_access_code}
+            %input{class: 'form-control', readonly: true, value: invitation_url(@channel.partner_access_code)}
             %label People
             %input{class: 'form-control search-partner', name: 'search-partner', placeholder: 'Enter name or email for searching...'}
       .modal-footer
@@ -30,7 +30,7 @@
         %form#invite-translator-form
           .form-group
             %label URL
-            %input{class: 'form-control', readonly: true, value: @channel.translator_access_code}
+            %input{class: 'form-control', readonly: true, value: invitation_url(@channel.translator_access_code)}
             %label People
             %input{class: 'form-control search-translator',name: 'search-translator',  placeholder: 'Enter name or email for searching...', data: {translator: "true", cnid: @channel.id}}
       .modal-footer
