@@ -9,7 +9,7 @@ puma_is_running() {
   if [ -S $PUMA_SOCKET ] ; then
     if [ -e $PUMA_PID_FILE ] ; then
       if pgrep -F $PUMA_PID_FILE > /dev/null ; then
-        return 1
+        return 0
       else
         echo "No puma process found"
       fi
@@ -38,7 +38,7 @@ case "$1" in
 
   stop)
     echo "Stopping puma..."
-      kill -s SIGTERM `cat $PUMA_PID_FILE`
+      kill -9 `cat $PUMA_PID_FILE`
       rm -f $PUMA_PID_FILE
       rm -f $PUMA_SOCKET
 
@@ -48,7 +48,7 @@ case "$1" in
   restart)
     if puma_is_running ; then
       echo "Hot-restarting puma..."
-      kill -s SIGUSR2 `cat $PUMA_PID_FILE`
+      kill -12 `cat $PUMA_PID_FILE`
 
       echo "Doublechecking the process restart..."
       sleep 5
