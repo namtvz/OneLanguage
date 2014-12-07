@@ -1,12 +1,13 @@
 <% if (isOnLeftSide){ %>
   <tr class="from-partner edit-message" data-id="<%= message.message_ref %>" id="<%= message.message_ref %>">
     <td class="owner-td">
-      <div class="message-content"><div class="arrow"></div>
+      <div class="message-content">
+        <i class="fa fa-pencil" />
         <span class="plain-text old-text"><%= message.old_content %></span>
         <span class="transition-arrow"> -> </span>
         <span class="plain-text new-text"><%= message.new_content %></span>
       </div>
-      <div class="message-time"><%= timeAgo(message.message_ref) %></div>
+      <div class="message-time"><%= timeAgo(message.updated_at) %></div>
     </td>
     <td class="translator-td"></td>
     <td class="partner-td"></td>
@@ -16,12 +17,13 @@
     <td class="owner-td"></td>
     <td class="translator-td"></td>
     <td class="partner-td">
-      <div class="message-content"><div class="arrow"></div>
+      <div class="message-content">
+        <i class="fa fa-pencil" />
         <span class="plain-text old-text"><%= message.old_content %></span>
         <span class="transition-arrow"> -> </span>
         <span class="plain-text new-text"><%= message.new_content %></span>
       </div>
-      <div class="message-time"><%= timeAgo(message.message_ref) %></div>
+      <div class="message-time"><%= timeAgo(message.updated_at) %></div>
     </td>
   </tr>
 <% } %>

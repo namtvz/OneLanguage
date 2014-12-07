@@ -148,7 +148,8 @@
           message: message,
           old_content: el.attr("old-message"),
           sender_role: '#{@role}',
-          original_role: original_role
+          original_role: original_role,
+          updated_at: new Date().getTime()
         }
       } else {
         message =  {

@@ -71,6 +71,7 @@ class @ChattingHelper
     else
       tr = @translatorMessageTemplate({message: m, isFromOwner: (m.sender_role is 'owner')})
       @chattingTable.append(tr)
+      $(".chat-content").scrollTop(1e10)
     return
 
   showMessageForPartner: (m) ->

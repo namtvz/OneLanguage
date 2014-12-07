@@ -3,6 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 $table-border-color: #CCC;
 $message-content-color: antiquewhite;
+$owner-message-color: lightgray;
+$owner-message-text-color: black;
+$partner-message-color: #499bea;
+$partner-message-text-color: white;
 
 .channel-show {
   font-size: 13px;
@@ -17,17 +21,12 @@ $message-content-color: antiquewhite;
     border-radius: 3px;
     border: 1px solid #CCC;
     overflow-y: auto;
-    width: 100%;
+    width: 101%;
     .channel-table  {
       width: 100%;
       tbody {
-        // display: block;
-        // max-height: 600px;
-        // overflow: auto;
+
       }
-      // tbody, tr {
-      //   width: 100%;
-      // }
       &.two-column {
         tr td {
           width: 50%;
@@ -45,9 +44,6 @@ $message-content-color: antiquewhite;
         border-bottom: none;
       }
       @media (min-width: 1200px){
-        // tbody {
-        //   width: 1140px;
-        // }
         &.two-column tr td:not(:nth-child(2)){
           width: 550px;
         }
@@ -60,7 +56,7 @@ $message-content-color: antiquewhite;
       }
 
       td {
-        padding: 20px 5px 5px 5px;
+        padding: 10px 5px 5px 5px;
       }
       tr td{
         border-right: 1px solid $table-border-color;
@@ -84,6 +80,10 @@ $message-content-color: antiquewhite;
           }
         }
 
+        .transition-arrow{
+          color: chocolate;
+        }
+
         padding: 5px;
         border-radius: 10px;
         border: 1px solid transparent;
@@ -97,13 +97,19 @@ $message-content-color: antiquewhite;
 
       .from-owner {
         .message-content{
-          margin-right: 20px;
+          margin-right: 50px;
+          background: $owner-message-color;
+          color: $owner-message-text-color;
+          text-align: left;
+          .plain-text.old-text{
+            color: $owner-message-text-color;
+          }
         }
         .arrow {
           left: 5px;
           border-left: 0px solid transparent;
           border-right: 20px solid transparent;
-          border-bottom: 15px solid $message-content-color;
+          border-bottom: 15px solid $owner-message-color;
         }
         .message-time {
           float: left;
@@ -112,13 +118,20 @@ $message-content-color: antiquewhite;
       }
       .from-partner {
         .message-content{
-          margin-left: 20px;
+          margin-left: 50px;
+          background: $partner-message-color;
+          color: $partner-message-text-color;
+          text-align: right;
+
+          .plain-text.old-text{
+            color: $partner-message-text-color;
+          }
         }
         .arrow {
           right: 5px;
           border-left: 20px solid transparent;
           border-right: 0px solid transparent;
-          border-bottom: 15px solid $message-content-color;
+          border-bottom: 15px solid $partner-message-color;
         }
         .message-time {
           float: right;
@@ -141,6 +154,11 @@ $message-content-color: antiquewhite;
               border: 1px solid transparent;
             }
           }
+        }
+      }
+      .edit-message{
+        .arrow{
+          display: none;
         }
       }
     }
@@ -170,5 +188,6 @@ textarea.translate-input {
   &:hover, &:focus{
     border: 1px solid #CCC!important;
     background-color: white!important;
+    color: black;
   }
 }
