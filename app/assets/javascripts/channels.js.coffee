@@ -37,6 +37,10 @@ OneLanguage.onReady ->
         invite_type: 'partner'
       success: (data)->
         $('#parner-invite-modal').modal('hide')
+        templete = JST["channels/user_info"]({user: data.user})
+        $('.partner-info-area').empty()
+        $('.partner-info-area').append(templete)
+
   $('.create-invite-to-translator').on "click", ->
     if !$('#invite-translator-form').valid()
       return
@@ -50,3 +54,6 @@ OneLanguage.onReady ->
         invite_type: 'translator'
       success: (data)->
         $('#translator-invite-modal').modal('hide')
+        templete = JST["channels/user_info"]({user: data.user})
+        $('.translator-info-area').empty()
+        $('.translator-info-area').append(templete)

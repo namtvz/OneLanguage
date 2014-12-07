@@ -1,29 +1,38 @@
 .row
   /Owner information
-  .col.col-xs-4.text-left
+  .col.col-xs-4.text-left.owner-info-area
     &nbsp;
     .clearfix
     = image_tag @owner_acc.avatar.url(:small), class: "thumbnail-img owner-avatar #{@owner_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.owner_id}"
     .clearfix
     = @owner_acc.name
-  .col.col-xs-4.text-center
+    = "(#{@channel.owner_language})"
+  .col.col-xs-4.text-center.translator-info-area
     - if @translator_acc
       %i.fa.fa-comments-o
       .clearfix
-      = image_tag @translator_acc.avatar_url, class: "thumbnail-img translator-avatar #{@translator_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.translator_id}"
+      = image_tag @translator_acc.avatar.url(:small), class: "thumbnail-img translator-avatar #{@translator_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.translator_id}"
       .clearfix
       = @translator_acc.name
     - else
       .invite-button
         %button.btn.btn-primary(data-toggle="modal" data-target="#translator-invite-modal")
           Invite Translator
-  .col.col-xs-4.text-right
+  .col.col-xs-4.text-right.partner-info-area
     - if @partner_acc
       &nbsp;
       .clearfix
-      = image_tag @partner_acc.avatar_url, class: "thumbnail-img partner-avatar #{@partner_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.partner_id}"
+      = image_tag @partner_acc.avatar.url(:small), class: "thumbnail-img partner-avatar #{@partner_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.partner_id}"
       .clearfix
       = @partner_acc.name
+      = "(#{@channel.partner_language})"
+    - elsif @channel.partner_id == -1
+      &nbsp;
+      .clearfix
+      = image_tag DEFAULT_IMAGE_URL, class: "thumbnail-img partner-avatar ", id: "avatar-0"
+      .clearfix
+      = "Guest"
+      = "(#{@channel.partner_language})"
     - else
       .invite-button
         %button.btn.btn-primary(data-toggle="modal" data-target="#parner-invite-modal")

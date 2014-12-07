@@ -64,15 +64,37 @@ class ChannelsController < ApplicationController
       elsif params[:invite_type] == "translator"
         @channel.update_attributes(translator_id: user.id)
       end
+    else
+      if params[:invite_type] == "partner"
+        @channel.update_attributes(partner_id: -1)
+      elsif params[:invite_type] == "translator"
+        @channel.update_attributes(translator_id: -1)
+      end
     end
 
     if params[:invite_type] == "partner"
-      ChannelMailer.send_invitation(@channel, params[:email], 'partner').deliver
+      ChannelMailer.delay.send_invitation(@channel, params[:email], 'partner')
     elsif params[:invite_type] == "translator"
-      ChannelMailer.send_invitation(@channel, params[:email], 'translator').deliver
+      ChannelMailer.delay.send_invitation(@channel, params[:email], 'translator')
     end
-
-    render json: {success: true, user: user, is_exist: is_exist}
+    if user
+      user_info = {
+        name: user.name,
+        avatar_type: "#{params[:invite_type]}-avatar",
+        channel_user_id: user.id,
+        avatar_url: user.avatar.url(:small),
+        channel_language: params[:invite_type] == "partner" ? @channel.partner_language : ""
+      }
+    else
+      user_info = {
+        name: "Guest",
+        avatar_type: "#{params[:invite_type]}-avatar",
+        channel_user_id: 0,
+        avatar_url: "/assets/#{DEFAULT_IMAGE_URL}",
+        channel_language: params[:invite_type] == "partner" ? @channel.partner_language : ""
+      }
+    end
+    render json: {success: true, user: user_info, is_exist: is_exist}
   end
 
 private

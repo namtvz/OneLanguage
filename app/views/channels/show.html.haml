@@ -14,7 +14,7 @@
           = render "message", owner_msg: owner_msg, translator_msg: translator_msg, partner_msg: partner_msg, from_owner: (i%2 == 1)
   - unless @translator
     .chat-footer
-      %textarea#chat-input
+      %textarea#chat-input{autofocus: true}
       .upload-wrapper
         %i{class: 'fa fa-paperclip'}
         %input#fileupload{type: "file", name: "files[]", multiple: true}
