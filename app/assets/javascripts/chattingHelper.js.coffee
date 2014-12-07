@@ -89,6 +89,7 @@ class @ChattingHelper
     return
 
   showAttachmentMessage: (message) ->
+    @chattingTable.find('tr.typing-text').remove()
     tr = @attachmentMessageTemplate({message: message, isFromOwner: (message.sender_role is 'owner')})
     @chattingTable.append(tr)
 
