@@ -65,3 +65,9 @@ OneLanguage.onReady ->
         else
           $('#translator-error-div').empty()
           $('#translator-error-div').append(data.error)
+
+  $('body').on 'click', '.edit-message', (e) ->
+    messageId = $(e.currentTarget).data('id')
+    tr = $("tr#" + messageId)
+    $("#" + messageId).ScrollTo
+      duration: 500

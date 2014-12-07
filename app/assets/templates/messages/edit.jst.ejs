@@ -1,5 +1,5 @@
 <% if (isOnLeftSide){ %>
-  <tr class="from-partner edit-message" data-id="<%= message.message_ref %>" id="<%= message.message_ref %>">
+  <tr class="from-partner edit-message" data-id="<%= message.message_ref %>">
     <td class="owner-td">
       <div class="message-content">
         <i class="fa fa-pencil" />
@@ -13,7 +13,7 @@
     <td class="partner-td"></td>
   </tr>
 <% } else { %>
-  <tr class="from-owner edit-message" data-id="<%= message.message_ref %>" id="<%= message.message_ref %>">
+  <tr class="from-owner edit-message" data-id="<%= message.message_ref %>">
     <td class="owner-td"></td>
     <td class="translator-td"></td>
     <td class="partner-td">

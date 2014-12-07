@@ -21,6 +21,7 @@
 //= require jquery.fileupload
 //= require jquery.autosize
 //= require jquery.scrollBottom
+//= require jquery-scrollto
 //= require tokenizer
 //= require core
 //= require pubnub.js
