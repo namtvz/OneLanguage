@@ -58,9 +58,9 @@ class ChannelsController < ApplicationController
     end
 
     if params[:invite_type] == "partner"
-      ChannelMailer.send_invitation_to_partner @channel, params[:email]
+      ChannelMailer.send_invitation(@channel, params[:email], 'partner').deliver
     elsif params[:invite_type] == "translator"
-      ChannelMailer.send_invitation_to_translator @channel, params[:email]
+      ChannelMailer.send_invitation(@channel, params[:email], 'translator').deliver
     end
 
     render json: {success: true, user: user, is_exist: is_exist}

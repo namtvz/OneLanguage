@@ -1,0 +1,11 @@
+%p
+  WELCOME!
+%p
+  = "You've been invited to the channel #{@channel.name} of #{@owner.name} as #{@type}."
+%p
+  Click the link below to join this channel
+%p
+  - link = invitation_url(@access_code)
+  = link_to link, link
+%p
+  = "Sent on behalf of #{@owner.name}"
