@@ -11,7 +11,7 @@ class InvitationsController < ApplicationController
       else
         @channel = channel_data[:channel]
         @role = channel_data[:role]
-        if (@role == 'partner' && @channel.partner_uuid) || (@role == 'translator' && @channel.translator_uuid)
+        if (@role == 'partner' && @channel.partner_online) || (@role == 'translator' && @channel.translator_online)
           respond_already_joined
         else
           if user_signed_in?

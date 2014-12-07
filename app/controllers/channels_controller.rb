@@ -37,10 +37,14 @@ class ChannelsController < ApplicationController
     when 'translator'
       @translator = true
       @uuid = @channel.translator_uuid
+      @channel.translator_id = current_user.id
     when 'partner'
       @partner = true
       @uuid = @channel.partner_uuid
+      @channel.partner_id = current_user.id
     end
+
+    @channel.save
   end
 
   def check_role
