@@ -56,4 +56,5 @@ gem 'friendly_id', '~> 5.0.4'
 
 gem 'ejs', '~> 1.1.0'
 
+gem 'delayed_job_active_record', '~> 4.0.2'
 gem 'delayed_job', '~> 4.0.4'
