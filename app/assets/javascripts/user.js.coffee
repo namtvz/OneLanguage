@@ -16,6 +16,9 @@ OneLanguage.onReady ->
   #Initialize tokenizer
   inputTokenizer = $("#user_language_names")
 
+  if inputTokenizer.length == 0
+    return
+
   currentLanguages = inputTokenizer.val().split(",")
 
   inputTokenizer.val("")
