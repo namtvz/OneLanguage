@@ -15,6 +15,7 @@ set :deploy_to, '/var/www/OneLanguage'
 set :repository, 'git@github.com:namtvit07/OneLanguage.git'
 set :branch, 'master'
 set :app_path, lambda { "#{deploy_to}/#{current_path}" }
+set :stage, 'production'
 
 # For system-wide RVM install.
 #   set :rvm_path, '/usr/local/rvm/bin/rvm'
@@ -131,7 +132,7 @@ namespace :delayed_job do
   desc "Restart delayed job"
   task :restart do
     queue 'echo "-----> Restart delayed job"'
-    queue "cd #{app_path} && RAILS_ENV=#{stage} && bin/delayed_job restart"
+    queue "cd #{app_path} && RAILS_ENV=#{stage} bin/delayed_job restart"
   end
 end
 
