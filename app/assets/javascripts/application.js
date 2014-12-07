@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require moment.min.js
 //= require twitter/bootstrap
 //= require jquery.validate.min
 //= require jquery-ui
