@@ -30,8 +30,10 @@
     chattingHelper = null,
     isBlurred = false,
     timerId = -1,
+    typingTimerId = null,
+    translatingTimerId = null,
     notificationPermission = 1,
-    chatChannel = '#{@channel.uuid}',
+    chatChannel = '#{'test 10'}',
     messageContent = $('#chat-input'),
     sendMessageButton = $('#btn-submit'),
     leaveButton = $('#btn-leave');
@@ -47,13 +49,19 @@
       case 'attachment':
         showAttachment(message);
         break;
+      case 'translating':
+        showTranslating(message);
+        break;
+      case 'typing':
+        showTyping(message);
+        break;
     }
 
     if (isBlurred && message.type == 'message') {
       // Flash title if blurred
       clearInterval(timerId);
       timerId = setInterval(function () {
-        document.title = document.title == "One Language" ? "New Message" : "One Language";
+        document.title = document.title == "1language" ? "New Message" : "1language";
       }, 500);
     }
   };
@@ -62,8 +70,8 @@
     chattingHelper.showMessage(m);
   }
 
-  function showTyping(){
-
+  function showTyping(m){
+    chattingHelper.showTypingMessage(m);
   }
 
   function showEdit(m){
@@ -72,6 +80,10 @@
 
   function showAttachment(m){
     chattingHelper.showAttachmentMessage(m);
+  }
+
+  function showTranslating(m){
+    chattingHelper.showTranslatingMessage(m);
   }
 
   function toggleOnlineUser(m, isOnline){
@@ -124,6 +136,38 @@
     }
   }
 
+  function sendTranslating(sendStart, el){
+    var message_ref = el.attr('m_ref');
+    var original_uid = parseInt(el.attr('u_id'));
+    message = {
+      message_ref: message_ref,
+      original_uid: original_uid,
+      start: sendStart,
+      type: 'translating'
+    };
+    console.log('Send translating');
+    console.log(message);
+    messenger.publish({
+      channel: chatChannel,
+      message: message
+    });
+  }
+
+  function sendTyping(sendStart){
+    message = {
+      sender_id: g_currentUser.id,
+      sender_role: "#{@role}",
+      start: sendStart,
+      type: 'typing'
+    };
+    console.log('Send typing');
+    console.log(message);
+    messenger.publish({
+      channel: chatChannel,
+      message: message
+    });
+  }
+
 
   $(function(){
     toggleOnlineUser({role: g_currentUser.role, uuid: g_currentUser.id}, true)
@@ -133,7 +177,7 @@
     }).on("focus", function () {
       isBlurred = false;
       clearInterval(timerId);
-      document.title = "One Language";
+      document.title = "1language";
     });
 
     // Submit message when translator enter form textarea
@@ -142,6 +186,20 @@
       if(e.which == 13 && !e.shiftKey) {
         sendTranslateMessage(el);
         return false;
+      }else{
+        if(translatingTimerId){
+          clearTimeout(translatingTimerId);
+          translatingTimerId = setTimeout(function(){
+            sendTranslating(false, el);
+            translatingTimerId = null;
+          }, 3000);
+        }else{
+          sendTranslating(true, el);
+          translatingTimerId = setTimeout(function(){
+            sendTranslating(false, el);
+            translatingTimerId = null;
+          }, 3000);
+        }
       }
     });
 
@@ -150,6 +208,20 @@
       if(e.which == 13 && !e.shiftKey) {
         sendPartnerMessage();
         return false;
+      }else{
+        if(typingTimerId){
+          clearTimeout(typingTimerId);
+          typingTimerId = setTimeout(function(){
+            sendTyping(false);
+            typingTimerId = null;
+          }, 3000);
+        }else{
+          sendTyping(true);
+          typingTimerId = setTimeout(function(){
+            sendTyping(false);
+            typingTimerId = null;
+          }, 3000);
+        }
       }
     });
 
@@ -198,8 +270,9 @@
       messages = messages[0];
 
       for(var i = 0; i < messages.length; i++) {
-        handleMessage(messages[i])
-
+        if(messages[i].type == 'message' || messages[i].type == 'attachment' || messages[i].type== 'edit'){
+          handleMessage(messages[i])
+        }
       }
     });
 

@@ -14,7 +14,11 @@ class @ChattingHelper
     @attachmentMessageTemplate = JST["messages/attachment"]
 
     @contentTemplate = JST["messages/content"]
+
+    @typingMessageTemplate = JST["messages/typing"]
+
   showMessage: (m) ->
+    @chattingTable.find('tr.typing-text').remove()
     if @role is 'translator'
       @showMessageForTranslator(m)
     else
@@ -65,7 +69,6 @@ class @ChattingHelper
   showMessageForPartner: (m) ->
     if $('tr#' + m.message_ref).length > 0
       tr = $('tr#' + m.message_ref)
-
       messageContainer = if m.sender_role is 'translator' and m.original_sender_id == @user.id
         console.log "KAKA"
         tr.find('td.partner-td')
@@ -77,9 +80,58 @@ class @ChattingHelper
       tr = @ownerMessageTemplate({message: m, isOwner: (m.sender_id is @user.id)})
       @chattingTable.append(tr)
     return
+
   showAttachmentMessage: (message) ->
     tr = @attachmentMessageTemplate({message: message, isFromOwner: (message.sender_role is 'owner')})
     @chattingTable.append(tr)
 
     $('.chat-content').scrollTop(1e10);
+
+  showTranslatingMessage: (m) ->
+    if @role isnt 'translator'
+      tr = $('tr#' + m.message_ref)
+      if m.original_uid is @user.id
+        if m.start
+          tr.find('td.partner-td').append('
+            <div class="typing-text">Translating...</div>
+          ')
+        else
+          tr.find('td.partner-td').find('div.typing-text').remove()
+      else
+        if m.start
+          tr.find('td.owner-td').append('
+            <div class="typing-text text-right">Translating...</div>
+          ')
+        else
+          tr.find('td.owner-td').find('div.typing-text').remove()
+
+  showTypingMessage: (m) ->
+    console.log('show typing')
+    console.log m
+    if @role is 'translator'
+      if m.start
+        if @chattingTable.find('tr.typing-text').length > 0
+          tr = @chattingTable.find('tr.typing-text')
+          if m.sender_role is 'owner'
+            tr.find('td.owner-td').html('Typing...')
+          else
+            tr.find('td.partner-td').html('Typing...')
+        else
+          tr = @typingMessageTemplate({message: m, isOwner: (m.sender_role is 'owner')})
+          @chattingTable.append(tr)
+      else
+        if m.sender_role is 'owner'
+          @chattingTable.find('tr.typing-text').find('td.owner-td').html('')
+        else
+          @chattingTable.find('tr.typing-text').find('td.partner-td').html('')
+
+    else
+      if m.sender_id isnt @user.id
+        if m.start
+          tr = $('
+            <tr class="typing-text"><td class="owner-td"></td><td></td><td class="partner-td text-right">Typing...</td></tr>
+          ')
+          @chattingTable.append(tr)
+        else
+          @chattingTable.find('tr.typing-text').remove()
 
