@@ -13,6 +13,17 @@
     = channel.translator.name rescue ''
     - if is_me? channel.translator_id
       %i (me)
+  %td.time-text
+    = channel.started_at if channel.started_at
   %td
-    = l channel.started_at if channel.started_at
-  %td
+    = Time.at(channel.ended_at - channel.started_at).strftime('%H:%M') if channel.ended_at
+
+:javascript
+  $(function(){
+    $.each($('.time-text'), function(i,e){
+      var timeText = $(e).text();
+      if(timeText.trim().length > 0){
+        $('.time-text').text(moment(timeText).format("LLL"))
+      }
+    })
+  });
