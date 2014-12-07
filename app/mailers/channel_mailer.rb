@@ -5,7 +5,7 @@ class ChannelMailer < ActionMailer::Base
     @email = email
     @owner = channel.owner
     @type = type
-    @access_code = if @type == "parnter"
+    @access_code = if @type == "partner"
       channel.partner_access_code
     else
       channel.translator_access_code
