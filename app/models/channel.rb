@@ -44,6 +44,17 @@ class Channel < ActiveRecord::Base
     return nil
   end
 
+  def who_is? user
+    case user.id
+    when owner_id
+      'owner'
+    when translator_id
+      'translator'
+    else
+      'partner'
+    end
+  end
+
   private
   def ensure_partner_access_code
     loop do

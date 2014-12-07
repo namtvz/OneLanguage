@@ -19,4 +19,5 @@
 //= require jquery.fileupload
 //= require tokenizer
 //= require core
+//= require pubnub.js
 //= require_tree .

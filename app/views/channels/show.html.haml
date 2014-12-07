@@ -7,26 +7,198 @@
   .chat-content
     %table.channel-table{class: "#{@translator ? 'three-column': 'two-column'}"}
       %tbody
-        - (1..50).each do |i|
+        - (1..0).each do |i|
           - owner_msg = randMessage
           - translator_msg = randMessage
           - partner_msg = randMessage
           = render "message", owner_msg: owner_msg, translator_msg: translator_msg, partner_msg: partner_msg, from_owner: (i%2 == 1)
-  .chat-footer.row.no-padding
-    .col.col-md-6
-      - if @owner
-        .row
-          .col.col-md-11
-            %textarea{placeholder: 'Type chat message here...', autofocus: true}
-          .col.col-md-1
-            %i{class: 'fa fa-paperclip'}
-    .col.col-md-6
-      - if @partner
-        .row
-          .col.col-md-1.text-right
-            %i{class: 'fa fa-paperclip'}
-          .col.col-md-11
-            %textarea{placeholder: 'Type chat message here...', autofocus: true}
+
+  .chat-footer
+    %table{class: "#{@translator ? 'three-column': 'two-column'}"}
+      %tbody
+
+    - unless @translator
+      %textarea#chat-input
+      %br
+      %button.btn.btn-primary#btn-leave Leave
+
+:javascript
+  var isTranslator = #{@translator};
+  var g_currentUser = {
+    id: #{current_user.id},
+    name: "#{current_user.name}"
+  };
+  var messenger = null,
+    chattingHelper = null,
+    isBlurred = false,
+    timerId = -1,
+    notificationPermission = 1,
+    chatChannel = '#{'test 9'}',
+    messageContent = $('#chat-input'),
+    sendMessageButton = $('#btn-submit'),
+    leaveButton = $('#btn-leave');
+
+  function handleMessage(message){
+    if(message.type == 'message'){
+      showMessage(message)
+    }
+
+    if (isBlurred && message.type == 'message') {
+      // Flash title if blurred
+      clearInterval(timerId);
+      timerId = setInterval(function () {
+        document.title = document.title == "One Language" ? "New Message" : "One Language";
+      }, 500);
+    }
+  };
+
+  function showMessage(m){
+    chattingHelper.showMessage(m);
+  }
+
+  function showTyping(){
+
+  }
+
+  function showEdit(m){
+
+  }
+
+  function showAttachment(m){
+
+  }
+
+  function showOnlineUser(m){
+
+  }
+
+  function sendPartnerMessage(){
+    var message = messageContent.val();
+    if(message !== "") {
+      console.log('Publish message');
+      message =  {
+        message: message,
+        sender_id: g_currentUser.id,
+        sender_role: '#{@role}',
+        type: 'message',
+        message_ref: new Date().getTime()
+      };
+      console.log(message);
+      messenger.publish({
+        channel: chatChannel,
+        message: message
+      });
+      messageContent.val("");
+    }
+  }
+
+  function sendTranslateMessage(el){
+    var message = el.val();
+    var message_ref = el.attr('m_ref');
+    var original_uid = parseInt(el.attr('u_id'));
+    var original_role = el.attr('o_role');
+    if(message !== "") {
+      message =  {
+        message: message,
+        sender_id: g_currentUser.id,
+        original_sender_id: original_uid,
+        original_role: original_role,
+        sender_role: '#{@role}',
+        type: 'message',
+        message_ref: message_ref
+      };
+      messenger.publish({
+        channel: chatChannel,
+        message: message
+      });
+      el.prop("disabled", true);
+    }
+  }
+
+
+  $(function(){
+    // Blur tracking
+    $(window).on('blur', function () {
+      isBlurred = true;
+    }).on("focus", function () {
+      isBlurred = false;
+      clearInterval(timerId);
+      document.title = "One Language";
+    });
+
+    // Submit message when translator enter form textarea
+    $(document).on('keypress', '.translate-input', function(e){
+      var el = $(this);
+      if(e.which == 13 && !e.shiftKey) {
+        sendTranslateMessage(el);
+        return false;
+      }
+    });
+
+    // Submit message when partner enter from textarea
+    messageContent.keypress(function(e) {
+      if(e.which == 13 && !e.shiftKey) {
+        sendPartnerMessage();
+        return false;
+      }
+    });
+
+    // Bind send message button
+    sendMessageButton.click(function (event) {
+      sendPartnerMessage()
+    });
+
+    // Bind leave button
+    leaveButton.click(function (event) {
+      messenger.unsubscribe({
+        channel: chatChannel
+      });
+      window.location = '/';
+    });
+
+    chattingHelper = new ChattingHelper("#{@role}", $('.channel-table'), g_currentUser)
+    messenger = new Messenger('pub-c-547232aa-3488-4d2d-8cbb-2fd4072a0697', 'sub-c-ccf40038-78ac-11e4-a5ea-02ee2ddab7fe');
+    messenger.connect(g_currentUser.id);
+
+    messenger.subscribe({
+      channel: chatChannel,
+      message: handleMessage,
+      presence: function( message, env, channel ) {
+        messenger.connection.here_now({
+          channel: chatChannel,
+          callback: function(m){
+          }
+        });
+      }
+    });
+
+    // Handle chat history
+    messenger.history({
+      channel: chatChannel
+    }, function (messages) {
+      messages = messages[0];
+
+      for(var i = 0; i < messages.length; i++) {
+        if(messages[i].type == 'message'){
+          showMessage(messages[i])
+        }
+      }
+    });
+
+    // Send message subscribe
+    var message = {
+      uuid: g_currentUser.id,
+      role: "#{@role}",
+      type: 'user_subscribe'
+    }
+    messenger.publish({
+      channel: chatChannel,
+      message: message
+    });
+
+
+  });
+
 
 :javascript
   $(document).ready(function(){

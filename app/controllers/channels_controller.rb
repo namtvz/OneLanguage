@@ -23,6 +23,16 @@ class ChannelsController < ApplicationController
 
   def show
     @owner_acc = @channel.owner
+    @channel = Channel.find params[:id]
+    @role = @channel.who_is? current_user
+    case @role
+    when 'owner'
+      @owner = true
+    when 'translator'
+      @translator = true
+    when 'partner'
+      @partner = true
+    end
   end
 
   def check_role
