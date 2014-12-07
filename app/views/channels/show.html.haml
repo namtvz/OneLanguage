@@ -232,18 +232,20 @@
         sendTranslateMessage(el);
         return false;
       }else{
-        if(translatingTimerId){
-          clearTimeout(translatingTimerId);
-          translatingTimerId = setTimeout(function(){
-            sendTranslating(false, el);
-            translatingTimerId = null;
-          }, 3000);
-        }else{
-          sendTranslating(true, el);
-          translatingTimerId = setTimeout(function(){
-            sendTranslating(false, el);
-            translatingTimerId = null;
-          }, 3000);
+        if(!el.hasClass('has-message')){
+          if(translatingTimerId){
+            clearTimeout(translatingTimerId);
+            translatingTimerId = setTimeout(function(){
+              sendTranslating(false, el);
+              translatingTimerId = null;
+            }, 3000);
+          }else{
+            sendTranslating(true, el);
+            translatingTimerId = setTimeout(function(){
+              sendTranslating(false, el);
+              translatingTimerId = null;
+            }, 3000);
+          }
         }
       }
     });
