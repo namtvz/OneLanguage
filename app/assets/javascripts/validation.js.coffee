@@ -40,3 +40,20 @@ $(document).ready ->
         notEqual: "Owner language must be different from partner's language"
       "channel[partner_language]":
         required: "Please select partner's language"
+@validateInviteForm = ->
+  $('#invite-partner-form').validate
+    rules:
+      "search-partner":
+        required: true
+        email: true
+    messages:
+      "search-partner":
+        required: "Please enter name or email for searching..."
+  $('#invite-translator-form').validate
+    rules:
+      "search-translator":
+        required: true
+        email: true
+    messages:
+      "search-translator":
+        required: "Please enter name or email for searching..."

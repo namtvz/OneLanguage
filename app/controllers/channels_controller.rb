@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_action :find_channel, only: [:show]
+  before_action :find_channel, only: [:show, :invite]
   before_action :check_role, only: [:show]
   before_action :load_user, only: [:show]
 
@@ -43,6 +43,27 @@ class ChannelsController < ApplicationController
   def load_user
     @translator_acc = @channel.translator
     @partner_acc = @channel.partner
+  end
+
+  def invite
+    user = User.find_by_email params[:email]
+    is_exist = false
+    if user
+      is_exist = true
+      if params[:invite_type] == "partner"
+        @channel.update_attributes(partner_id: user.id)
+      elsif params[:invite_type] == "translator"
+        @channel.update_attributes(translator_id: user.id)
+      end
+    end
+
+    if params[:invite_type] == "partner"
+      ChannelMailer.send_invitation_to_partner @channel, params[:email]
+    elsif params[:invite_type] == "translator"
+      ChannelMailer.send_invitation_to_translator @channel, params[:email]
+    end
+
+    render json: {success: true, user: user, is_exist: is_exist}
   end
 
 private

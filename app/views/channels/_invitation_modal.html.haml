@@ -7,14 +7,15 @@
           %span.sr-only Close
         %h4#myModalLabel.modal-title Invite Partner
       .modal-body
-        .form-group
-          %label URL
-          %input{class: 'form-control', readonly: true, value: @channel.partner_access_code}
-          %label People
-          %input{class: 'form-control search-people', placeholder: 'Enter name or email for searching...'}
+        %form#invite-partner-form
+          .form-group
+            %label URL
+            %input{class: 'form-control', readonly: true, value: @channel.partner_access_code}
+            %label People
+            %input{class: 'form-control search-partner', name: 'search-partner', placeholder: 'Enter name or email for searching...'}
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
-        %button.btn.btn-primary.create-new-channel{:type => "submit"} Invite
+        %button.btn.btn-primary.create-invite-to-partner{:type => "submit", data: {cnid: @channel.id}} Invite
 
 
 #translator-invite-modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
@@ -26,12 +27,18 @@
           %span.sr-only Close
         %h4#myModalLabel.modal-title Invite Translator
       .modal-body
-        .form-group
-          %label URL
-          %input{class: 'form-control', readonly: true, value: @channel.translator_access_code}
-          %label People
-          %input{class: 'form-control search-people', placeholder: 'Enter name or email for searching...', data: {translator: "true", cnid: @channel.id}}
+        %form#invite-translator-form
+          .form-group
+            %label URL
+            %input{class: 'form-control', readonly: true, value: @channel.translator_access_code}
+            %label People
+            %input{class: 'form-control search-translator',name: 'search-translator',  placeholder: 'Enter name or email for searching...', data: {translator: "true", cnid: @channel.id}}
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
-        %button.btn.btn-primary.create-new-channel{:type => "submit"} Invite
+        %button.btn.btn-primary.create-invite-to-translator{:type => "submit", data: {cnid: @channel.id}} Invite
 
+
+:javascript
+  $(document).ready(function(){
+    validateInviteForm();
+  });

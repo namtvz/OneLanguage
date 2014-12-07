@@ -9,7 +9,7 @@ OneLanguage.onReady ->
     chatContentContainer.height($(window).height() - 300)
 
   initSearchUserAutoComplete = ->
-    $('.search-people').each ->
+    $('.search-partner, .search-translator').each ->
       if $(this).data().translator
         source = "/search_users?cnid=#{$(this).data().cnid}"
       else
@@ -18,3 +18,30 @@ OneLanguage.onReady ->
         source: source
         minLength: 0
   initSearchUserAutoComplete()
+
+  $('.create-invite-to-partner').on "click", ->
+    if !$('#invite-partner-form').valid()
+      return
+    cnid = $(this).data().cnid
+    email = $('.search-partner').val()
+    $.ajax
+      method: 'POST'
+      url: "/channels/#{cnid}/invite"
+      data:
+        email: email
+        invite_type: 'partner'
+      success: (data)->
+        $('#parner-invite-modal').modal('hide')
+  $('.create-invite-to-translator').on "click", ->
+    if !$('#invite-translator-form').valid()
+      return
+    cnid = $(this).data().cnid
+    email = $('.search-translator').val()
+    $.ajax
+      method: 'POST'
+      url: "/channels/#{cnid}/invite"
+      data:
+        email: email
+        invite_type: 'translator'
+      success: (data)->
+        $('#translator-invite-modal').modal('hide')
