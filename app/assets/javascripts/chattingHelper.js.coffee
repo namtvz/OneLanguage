@@ -33,7 +33,7 @@ class @ChattingHelper
   updateOrAppendNewMessage: (message, messageContainer) ->
     content = @contentTemplate({m: message})
 
-    if messageContainer.children().length > 0
+    if messageContainer.children().length > 0 && messageContainer.children(".typing-text").length == 0
       #Remove older text
       messageContainer.find(".old-text").remove()
       messageContainer.find(".transition-arrow").remove()
@@ -49,7 +49,7 @@ class @ChattingHelper
       messageContainer.find(".message-content").append(newMessageDiv)
       messageContainer.find('.message-content .new-text').before("<span class='transition-arrow'> -> </span>")
     else
-      messageContainer.append(content)
+      messageContainer.html(content)
 
   showMessageForTranslator: (m) ->
     if m.sender_id is @user.id
