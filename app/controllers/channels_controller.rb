@@ -85,7 +85,7 @@ class ChannelsController < ApplicationController
       user_info = {
         name: user.name,
         avatar_type: "#{params[:invite_type]}-avatar",
-        channel_user_id: user.id,
+        channel_user_id: params[:invite_type] == "partner" ? @channel.partner_uuid : @channel.translator_uuid,
         avatar_url: user.avatar.url(:small),
         channel_language: params[:invite_type] == "partner" ? @channel.partner_language : ""
       }
@@ -93,7 +93,7 @@ class ChannelsController < ApplicationController
       user_info = {
         name: "Guest",
         avatar_type: "#{params[:invite_type]}-avatar",
-        channel_user_id: 0,
+        channel_user_id: params[:invite_type] == "partner" ? @channel.partner_uuid : @channel.translator_uuid,
         avatar_url: "/assets/#{DEFAULT_IMAGE_URL}",
         channel_language: params[:invite_type] == "partner" ? @channel.partner_language : ""
       }

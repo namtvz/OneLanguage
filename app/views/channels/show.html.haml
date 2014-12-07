@@ -306,7 +306,14 @@
       message: message
     });
 
-
+    messenger.connection.here_now({
+      channel: chatChannel,
+      callback: function(m){
+        $.each(m.uuids, function(index, value){
+          $('#avatar-' + value).addClass('online');
+        });
+      }
+    });
   });
 
 

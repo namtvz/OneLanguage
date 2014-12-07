@@ -61,11 +61,7 @@ class User < ActiveRecord::Base
   end
 
   def get_my_channels
-    if self.translator?
-      self.translator_channels
-    else
-      Channel.where("owner_id = :user_id OR partner_id = :user_id", user_id: self.id)
-    end
+    Channel.where("owner_id = :user_id OR partner_id = :user_id OR translator_id = :user_id", user_id: self.id)
   end
 
   def language_names
