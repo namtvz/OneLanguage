@@ -36,10 +36,14 @@ OneLanguage.onReady ->
         email: email
         invite_type: 'partner'
       success: (data)->
-        $('#parner-invite-modal').modal('hide')
-        templete = JST["channels/user_info"]({user: data.user, is_exist: data.is_exist})
-        $('.partner-info-area').empty()
-        $('.partner-info-area').append(templete)
+        if data.success
+          $('#parner-invite-modal').modal('hide')
+          templete = JST["channels/user_info"]({user: data.user, is_exist: data.is_exist})
+          $('.partner-info-area').empty()
+          $('.partner-info-area').append(templete)
+        else
+          $('#partner-error-div').empty()
+          $('#partner-error-div').append(data.error)
 
   $('.create-invite-to-translator').on "click", ->
     if !$('#invite-translator-form').valid()
@@ -53,7 +57,11 @@ OneLanguage.onReady ->
         email: email
         invite_type: 'translator'
       success: (data)->
-        $('#translator-invite-modal').modal('hide')
-        templete = JST["channels/user_info"]({user: data.user, is_exist: data.is_exist})
-        $('.translator-info-area').empty()
-        $('.translator-info-area').append(templete)
+        if data.success
+          $('#translator-invite-modal').modal('hide')
+          templete = JST["channels/user_info"]({user: data.user, is_exist: data.is_exist})
+          $('.translator-info-area').empty()
+          $('.translator-info-area').append(templete)
+        else
+          $('#translator-error-div').empty()
+          $('#translator-error-div').append(data.error)

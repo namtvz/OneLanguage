@@ -14,7 +14,7 @@ class Channel < ActiveRecord::Base
   validates :name, presence: true
   validates :owner_language, presence: true
   validates :partner_language, presence: true
-
+  validate :channel_users
   # Scopes
   scope :search, ->(current_user, term) {
     search_query_parts = ["(channels.name LIKE :term)"]
@@ -156,5 +156,11 @@ class Channel < ActiveRecord::Base
   def listen_to_online_status
     self.update_online_status
     true
+  end
+
+  def channel_users
+    if translator_id != nil && translator_id != -1 && partner_id != nil && partner_id != -1 && translator_id == partner_id
+      errors.add(:base, "Translator and partner must be different ones.")
+    end
   end
 end

@@ -13,6 +13,7 @@
             %input{class: 'form-control', readonly: true, value: invitation_url(@channel.partner_access_code)}
             %label People
             %input{class: 'form-control search-partner', name: 'search-partner', placeholder: 'Enter name or email for searching...'}
+        #partner-error-div.error-div
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
         %button.btn.btn-primary.create-invite-to-partner{:type => "submit", data: {cnid: @channel.id}} Invite
@@ -33,6 +34,7 @@
             %input{class: 'form-control', readonly: true, value: invitation_url(@channel.translator_access_code)}
             %label People
             %input{class: 'form-control search-translator',name: 'search-translator',  placeholder: 'Enter name or email for searching...', data: {translator: "true", cnid: @channel.id}}
+        #translator-error-div.error-div
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
         %button.btn.btn-primary.create-invite-to-translator{:type => "submit", data: {cnid: @channel.id}} Invite

@@ -61,18 +61,19 @@ class ChannelsController < ApplicationController
   def invite
     user = User.find_by_email params[:email]
     is_exist = false
+    success = true
     if user
       is_exist = true
       if params[:invite_type] == "partner"
-        @channel.update_attributes(partner_id: user.id)
+        success = @channel.update_attributes(partner_id: user.id)
       elsif params[:invite_type] == "translator"
-        @channel.update_attributes(translator_id: user.id)
+        success = @channel.update_attributes(translator_id: user.id)
       end
     else
       if params[:invite_type] == "partner"
-        @channel.update_attributes(partner_id: -1)
+        success = @channel.update_attributes(partner_id: -1)
       elsif params[:invite_type] == "translator"
-        @channel.update_attributes(translator_id: -1)
+        success = @channel.update_attributes(translator_id: -1)
       end
     end
 
@@ -98,7 +99,7 @@ class ChannelsController < ApplicationController
         channel_language: params[:invite_type] == "partner" ? @channel.partner_language : ""
       }
     end
-    render json: {success: true, user: user_info, is_exist: is_exist}
+    render json: {success: success, user: user_info, is_exist: is_exist, error: @channel.errors.full_messages}
   end
 
 private
