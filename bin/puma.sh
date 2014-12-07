@@ -8,7 +8,7 @@ PUMA_SOCKET=/var/www/OneLanguage/shared/tmp/sockets/puma.sock
 puma_is_running() {
   if [ -S $PUMA_SOCKET ] ; then
     if [ -e $PUMA_PID_FILE ] ; then
-      if cat $PUMA_PID_FILE | xargs pgrep -P > /dev/null ; then
+      if pgrep -F $PUMA_PID_FILE > /dev/null ; then
         return 0
       else
         echo "No puma process found"

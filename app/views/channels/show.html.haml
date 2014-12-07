@@ -55,6 +55,9 @@
       case 'typing':
         showTyping(message);
         break;
+      case 'edit':
+        showEditMessage(message);
+        break;
     }
 
     if (isBlurred && message.type == 'message') {
@@ -74,8 +77,8 @@
     chattingHelper.showTypingMessage(m);
   }
 
-  function showEdit(m){
-
+  function showEditMessage(m){
+    chattingHelper.showEditMessage(m);
   }
 
   function showAttachment(m){
@@ -118,16 +121,31 @@
     var message_ref = el.attr('m_ref');
     var original_uid = el.attr('u_id');
     var original_role = el.attr('o_role');
+    var isUpdating = el.hasClass("has-message")
+
     if(message !== "") {
-      message =  {
-        message: message,
-        sender_id: g_currentUser.id,
-        original_sender_id: original_uid,
-        original_role: original_role,
-        sender_role: '#{@role}',
-        type: 'message',
-        message_ref: message_ref
-      };
+      if (isUpdating){
+        message = {
+          type: 'edit',
+          message_ref: message_ref,
+          new_content: message,
+          message: message,
+          old_content: el.attr("old-message"),
+          sender_role: '#{@role}',
+          original_role: original_role
+        }
+      } else {
+        message =  {
+          message: message,
+          sender_id: g_currentUser.id,
+          original_sender_id: original_uid,
+          original_role: original_role,
+          sender_role: '#{@role}',
+          type: 'message',
+          message_ref: message_ref
+        };
+      }
+
       messenger.publish({
         channel: chatChannel,
         message: message

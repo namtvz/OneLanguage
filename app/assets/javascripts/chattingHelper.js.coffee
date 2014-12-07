@@ -17,6 +17,8 @@ class @ChattingHelper
 
     @typingMessageTemplate = JST["messages/typing"]
 
+    @editNotificationTemplate = JST["messages/edit"]
+
   showMessage: (m) ->
     @chattingTable.find('tr.typing-text').remove()
     if @role is 'translator'
@@ -34,6 +36,7 @@ class @ChattingHelper
     if messageContainer.children().length > 0
       #Remove older text
       messageContainer.find(".old-text").remove()
+      messageContainer.find(".transition-arrow").remove()
 
       #Mark the current text as old text
       oldMessageDiv = messageContainer.find(".plain-text")
@@ -43,8 +46,8 @@ class @ChattingHelper
 
       #Append the new text
       newMessageDiv.removeClass("old-text").addClass("new-text").html(message.message)
-
       messageContainer.find(".message-content").append(newMessageDiv)
+      messageContainer.find('.message-content .new-text').before("<span class='transition-arrow'> -> </span>")
     else
       messageContainer.append(content)
 
@@ -52,6 +55,10 @@ class @ChattingHelper
     if m.sender_id is @user.id
       tr = $('tr#' + m.message_ref)
       tr.find('textarea').val(m.message)
+      if m.message && m.message.length > 0
+        tr.find('textarea').addClass('has-message')
+        tr.find('textarea').attr("old-message", m.message)
+
       tr.find('textarea').trigger('autosize.resize')
 
       messageContainer = if m.original_role is 'owner'
@@ -70,7 +77,6 @@ class @ChattingHelper
     if $('tr#' + m.message_ref).length > 0
       tr = $('tr#' + m.message_ref)
       messageContainer = if m.sender_role is 'translator' and m.original_sender_id == @user.id
-        console.log "KAKA"
         tr.find('td.partner-td')
       else
         tr.find('td.owner-td')
@@ -106,8 +112,6 @@ class @ChattingHelper
           tr.find('td.owner-td').find('div.typing-text').remove()
 
   showTypingMessage: (m) ->
-    console.log('show typing')
-    console.log m
     if @role is 'translator'
       if m.start
         if @chattingTable.find('tr.typing-text').length > 0
@@ -134,4 +138,23 @@ class @ChattingHelper
           @chattingTable.append(tr)
         else
           @chattingTable.find('tr.typing-text').remove()
+
+  showEditMessage: (m) ->
+    tr = $("tr#" + m.message_ref)
+    tr.find('textarea').val(m.message)
+    tr.find('textarea').attr("old-message", m.message)
+
+    messageContainer = if m.original_role is 'owner'
+      tr.find('td.partner-td')
+    else
+      tr.find('td.owner-td')
+
+    @updateOrAppendNewMessage(m, messageContainer)
+
+    isOnLeftSide = (m.original_role != 'owner' || @role == 'partner' )
+
+    tr = @editNotificationTemplate({message: m, isOnLeftSide: isOnLeftSide})
+
+    @chattingTable.append(tr)
+
 
