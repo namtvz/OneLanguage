@@ -24,24 +24,34 @@
       %button.btn.btn-primary#btn-leave Leave
 
 :javascript
-  var isTranslator = #{@translator};
+  var role = "#{@role}";
   var g_currentUser = {
     id: #{current_user.id},
-    name: "#{current_user.name}"
+    name: "#{current_user.name}",
+    role: "#{@role}"
   };
   var messenger = null,
     chattingHelper = null,
     isBlurred = false,
     timerId = -1,
     notificationPermission = 1,
-    chatChannel = '#{'test 9'}',
+    chatChannel = '#{'test 10'}',
     messageContent = $('#chat-input'),
     sendMessageButton = $('#btn-submit'),
     leaveButton = $('#btn-leave');
 
   function handleMessage(message){
     if(message.type == 'message'){
-      showMessage(message)
+      showMessage(message);
+    }
+
+    switch(message.type) {
+      case 'message':
+        showMessage(message);
+        break;
+      case 'user_subscribe':
+        toggleOnlineUser(message, true);
+        break;
     }
 
     if (isBlurred && message.type == 'message') {
@@ -69,14 +79,18 @@
 
   }
 
-  function showOnlineUser(m){
-
+  function toggleOnlineUser(m, isOnline){
+    if(isOnline){
+      $('.' + m.role + '-avatar').attr('id', 'avatar-' + m.uuid);
+      $('.' + m.role + '-avatar').addClass('online');
+    }else{
+      $('#avatar-' + m.uuid).removeClass('online');
+    }
   }
 
   function sendPartnerMessage(){
     var message = messageContent.val();
     if(message !== "") {
-      console.log('Publish message');
       message =  {
         message: message,
         sender_id: g_currentUser.id,
@@ -84,7 +98,6 @@
         type: 'message',
         message_ref: new Date().getTime()
       };
-      console.log(message);
       messenger.publish({
         channel: chatChannel,
         message: message
@@ -118,6 +131,7 @@
 
 
   $(function(){
+    toggleOnlineUser({role: g_currentUser.role, uuid: g_currentUser.id}, true)
     // Blur tracking
     $(window).on('blur', function () {
       isBlurred = true;
@@ -165,9 +179,18 @@
       channel: chatChannel,
       message: handleMessage,
       presence: function( message, env, channel ) {
+        if(message.action == 'leave'){
+          toggleOnlineUser(message, false);
+        }
+        if(message.action == 'join'){
+          $('#avatar-' + message.uuid).addClass('online');
+        }
         messenger.connection.here_now({
           channel: chatChannel,
           callback: function(m){
+            $.each(m.uuids, function(index, value){
+              $('#avatar-' + value).addClass('online');
+            });
           }
         });
       }
@@ -192,6 +215,7 @@
       role: "#{@role}",
       type: 'user_subscribe'
     }
+
     messenger.publish({
       channel: chatChannel,
       message: message

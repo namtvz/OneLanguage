@@ -3,14 +3,14 @@
   .col.col-md-4.text-left
     &nbsp;
     .clearfix
-    = image_tag @owner_acc.avatar.url(:small), class: "thumbnail-img #{@owner_acc.id == current_user.id ? "online" : ""}"
+    = image_tag @owner_acc.avatar.url(:small), class: "thumbnail-img owner-avatar #{@owner_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.owner_id}"
     .clearfix
     = @owner_acc.name
   .col.col-md-4.text-center
     - if @translator_acc
       %i.fa.fa-comments-o
       .clearfix
-      = image_tag @translator_acc.avatar_url, class: "thumbnail-img #{@translator_acc.id == current_user.id ? "online" : ""}"
+      = image_tag @translator_acc.avatar_url, class: "thumbnail-img translator-avatar #{@translator_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.translator_id}"
       .clearfix
       = @translator_acc.name
     - else
@@ -21,7 +21,7 @@
     - if @partner_acc
       &nbsp;
       .clearfix
-      = image_tag @partner_acc.avatar_url, class: "thumbnail-img #{@partner_acc.id == current_user.id ? "online" : ""}"
+      = image_tag @partner_acc.avatar_url, class: "thumbnail-img partner-avatar #{@partner_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.partner_id}"
       .clearfix
       = @partner_acc.name
     - else
@@ -30,3 +30,4 @@
           Invite Partner
 
 = render "invitation_modal"
+
