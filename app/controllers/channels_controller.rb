@@ -12,13 +12,22 @@ class ChannelsController < ApplicationController
     render :index, layout: "side_menu"
   end
 
+  def create
+    channel = Channel.new channel_params
+    if channel.save
+      redirect_to channel_path(channel.id)
+    else
+      redirect_to channels_path
+    end
+  end
+
   def show
     @owner_acc = @channel.owner
   end
 
   def check_role
-    @owner = true
-    @translator = false
+    @owner = false
+    @translator = true
     @partner = false
   end
 
@@ -31,5 +40,10 @@ class ChannelsController < ApplicationController
   private
   def find_channel
     @channel = Channel.find(params[:id])
+  end
+  def channel_params
+    channel_params = params[:channel].permit(:name, :owner_language, :partner_language)
+    channel_params[:owner_id] = current_user.id
+    channel_params
   end
 end

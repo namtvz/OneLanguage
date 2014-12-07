@@ -1,4 +1,9 @@
 root = exports ? this
+$(document).ready ->
+  jQuery.validator.addMethod "notEqual", ((value, element, param) ->
+    @optional(element) or value isnt $(param).val()
+  ), "This has to be different..."
+
 
 @validateDeviseForm = ->
   $('.devise-form').validate
@@ -15,5 +20,23 @@ root = exports ? this
         required: true
     messages:
       'user[password_confirmation]':
-        equalTo: 'Please enter the same with password.'    
+        equalTo: 'Please enter the same with password.'
 
+@validateNewChannel = ->
+  $('#new-channel-form').validate
+    rules:
+      "channel[name]":
+        required: true
+      "channel[owner_language]":
+        required: true
+        notEqual: '#partner_language'
+      "channel[partner_language]":
+        required: true
+    messages:
+      "channel[name]":
+        required: "Please enter channel name"
+      "channel[owner_language]":
+        required: "Please select owner's language"
+        notEqual: "Owner language must be different from partner's language"
+      "channel[partner_language]":
+        required: "Please select partner's language"

@@ -5,7 +5,10 @@
         .form-group
           %input.form-control{type: 'text', name: 'term', placeholder: 'Search', value: params[:term]}
           %button.btn.btn-default{type: 'submit'} GO
-          %a.btn.btn-primary Create Channel
+          %a.btn.btn-primary.btn-create(data-toggle="modal" data-target="#new-channel-modal")
+            Create Channel
 
   .channels-table
     = render 'normal_channel_list', channels: @channels
+
+= render "new_channel_modal"

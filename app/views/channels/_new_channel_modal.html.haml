@@ -1,0 +1,31 @@
+/ Modal
+= form_tag "/channels", id: "new-channel-form" do |f|
+  #new-channel-modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{"data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+            %span.sr-only Close
+          %h4#myModalLabel.modal-title New Channel
+        .modal-body
+          .form-group
+            %label Channel name
+            -# %input{class: 'form-control'}
+            = text_field_tag "channel[name]", nil, class: 'form-control', placeholder: "Channel Name"
+          .form-group
+            %label Owner's Language
+            -# %input{class: 'form-control'}
+            = select_tag "channel[owner_language]", options_for_select(LanguageList::COMMON_LANGUAGES.collect{|l| [l.name, l.name]}), class: 'form-control', prompt: "Choose language", id: "owner_language"
+          .form-group
+            %label Partner's Language
+            -# %input{class: 'form-control'}
+            = select_tag "channel[partner_language]", options_for_select(LanguageList::COMMON_LANGUAGES.collect{|l| [l.name, l.name]}), class: 'form-control', prompt: "Choose language", id: "partner_language"
+        .modal-footer
+          %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cancel
+          %button.btn.btn-primary.create-new-channel{:type => "submit"} Create
+
+:javascript
+  $(document).ready(function(){
+    validateNewChannel();
+  });
