@@ -1,7 +1,7 @@
 @timeAgo = (timestamp) ->
   timestamp = parseInt(timestamp)
   if (new Date().getTime()) - timestamp < 86400000
-    moment(timestamp).fromNow()
+    moment(timestamp).format('HH:mm')
   else
     moment(timestamp).format('lll')
 
