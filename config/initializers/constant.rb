@@ -1,1 +1,1 @@
-DEFAULT_IMAGE_URL = "no-avatar.png"
+DEFAULT_IMAGE_URL = "/system/no-avatar.png"

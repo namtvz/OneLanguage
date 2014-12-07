@@ -95,7 +95,7 @@ class ChannelsController < ApplicationController
         name: "Guest",
         avatar_type: "#{params[:invite_type]}-avatar",
         channel_user_id: params[:invite_type] == "partner" ? @channel.partner_uuid : @channel.translator_uuid,
-        avatar_url: "/assets/#{DEFAULT_IMAGE_URL}",
+        avatar_url: DEFAULT_IMAGE_URL,
         channel_language: params[:invite_type] == "partner" ? @channel.partner_language : ""
       }
     end
