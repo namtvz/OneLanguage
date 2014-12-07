@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   resources :attachments, only: [:create, :destroy]
 
   get '/search_languages' => 'home#search_languages'
+  resources :invitations, only: [:show, :create]
 end

@@ -1,0 +1,39 @@
+%h2.text-center 1language
+%br
+%br
+.row
+  .col-sm-3
+  .col-sm-6.authentication-form
+    = form_tag invitations_path, method: :post, id: 'join-conversation' do
+      .form-group
+        = text_field_tag :name, nil, autofocus: true, class: 'form-control', placeholder: 'Name'
+      .div
+        %button.btn.btn-primary.btn-block{type: 'submit'} Join Conversation
+
+%br
+.row
+  .col-sm-3
+  .col-sm-6{style: 'padding: 30px;'}
+    .text-center
+      %p Already have an account?
+      = link_to "Sign In", new_user_session_path, class: "btn btn-primary btn-block"
+.row
+  .col-sm-3
+  .col-sm-6{style: 'padding: 30px; padding-top: 10px;'}
+    .text-center
+      %p Do not have an account?
+      = link_to "Create an Account", new_user_registration_path, class: "btn btn-primary btn-block"
+
+:javascript
+  $('#join-conversation').validate({
+    rules: {
+      name: {
+        required: true
+      }
+    },
+    messages: {
+      name: {
+        required: 'Please enter your name'
+      }
+    }
+  });

@@ -14,4 +14,14 @@ class ApplicationController < ActionController::Base
       }
     end
   end
+
+  def after_sign_in_path_for(resource)
+    return_url = session[:return_url]
+    if return_url
+      session[:return_url] = nil
+      return_url
+    else
+      super(resource)
+    end
+  end
 end

@@ -39,9 +39,9 @@ class Channel < ActiveRecord::Base
           role: 'translator'
         }
       end
+    else
+      nil
     end
-
-    return nil
   end
 
   def who_is? user
