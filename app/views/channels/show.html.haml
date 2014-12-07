@@ -14,11 +14,10 @@
           = render "message", owner_msg: owner_msg, translator_msg: translator_msg, partner_msg: partner_msg, from_owner: (i%2 == 1)
   - unless @translator
     .chat-footer
-      %textarea#chat-input{autofocus: true}
-      .upload-wrapper
+      %textarea#chat-input{autofocus: true, placeholder: "Type your message here"}
+      .upload-wrapper{title: "Attach files", "data-toggle" => "tooltip"}
         %i{class: 'fa fa-paperclip'}
         %input#fileupload{type: "file", name: "files[]", multiple: true}
-      %button.btn.btn-primary#btn-leave Leave
 
 :javascript
   var role = "#{@role}";
@@ -103,9 +102,9 @@
   }
 
   function sendTranslateMessage(el){
-    var message = el.val();
+    var message = el.val().trim();
     var message_ref = el.attr('m_ref');
-    var original_uid = parseInt(el.attr('u_id'));
+    var original_uid = el.attr('u_id');
     var original_role = el.attr('o_role');
     if(message !== "") {
       message =  {

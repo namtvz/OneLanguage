@@ -21,7 +21,7 @@ class @ChattingHelper
       @showMessageForPartner(m)
       $('.chat-content').scrollTop(1e10);
 
-    $('textarea').autosize
+    $('.chat-content textarea').autosize
       append: false
 
   updateOrAppendNewMessage: (message, messageContainer) ->
@@ -66,7 +66,8 @@ class @ChattingHelper
     if $('tr#' + m.message_ref).length > 0
       tr = $('tr#' + m.message_ref)
 
-      messageContainer = if m.sender_role is 'translator' and parseInt(m.original_sender_id) is @user.id
+      messageContainer = if m.sender_role is 'translator' and m.original_sender_id == @user.id
+        console.log "KAKA"
         tr.find('td.partner-td')
       else
         tr.find('td.owner-td')

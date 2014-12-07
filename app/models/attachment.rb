@@ -1,6 +1,6 @@
 class Attachment < ActiveRecord::Base
   has_attached_file :data
-  validates_attachment_content_type :data, content_type: ["application/pdf", "image/jpeg", "image/gif", "image/png"]
+  do_not_validate_attachment_file_type :data
 
   belongs_to :user
   belongs_to :channel

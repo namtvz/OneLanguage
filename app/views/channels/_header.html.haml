@@ -15,6 +15,8 @@
         = image_tag @translator_acc.avatar.url(:small), class: "thumbnail-img translator-avatar #{@translator_acc.id == current_user.id ? "online" : ""}", id: "avatar-#{@channel.translator_id}"
         .clearfix
         = @translator_acc.name
+        - if @translator_acc.id == current_user.id
+          (You)
       - else
         .invite-button
           %button.btn.btn-primary(data-toggle="modal" data-target="#translator-invite-modal")

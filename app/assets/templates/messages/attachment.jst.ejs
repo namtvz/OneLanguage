@@ -3,7 +3,7 @@
     <div class="message-content">
       <div class="arrow"></div>
       <a href='<%= message.url %>' target="_blank">
-        <% if (message.content_type && message.content_type.match(/image/).length > 0){ %>
+        <% if (message.content_type && message.content_type.match(/image/)){ %>
           <img src="<%= message.url %>" width="100px" />
         <% } else{ %>
           <i class="fa fa-paperclip"/>
@@ -18,7 +18,7 @@
     <div class="message-content">
       <div class="arrow"></div>
       <a href='<%= message.url %>' target="_blank">
-        <% if (message.content_type && message.content_type.match(/image/).length > 0){ %>
+        <% if (message.content_type && message.content_type.match(/image/)){ %>
           <img src="<%= message.url %>" width="100px" />
         <% } else { %>
           <i class="fa fa-paperclip"/>
