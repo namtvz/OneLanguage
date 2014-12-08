@@ -97,7 +97,6 @@ class @ChattingHelper
     tr = @attachmentMessageTemplate({message: message, isFromOwner: (message.sender_role is 'owner')})
     @chattingTable.append(tr)
     isScroll = $('.chat-content').data().scrollBottom.reached_bottom
-    $('.chat-content').scrollTop(1e10);
     if message.content_type && message.content_type.match(/image/) && isScroll
       $('tr#' + message.message_ref).find('img').load () ->
         $('.chat-content').scrollTop(1e10);
