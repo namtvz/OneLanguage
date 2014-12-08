@@ -26,6 +26,8 @@
       .upload-wrapper{title: "Attach files", "data-toggle" => "tooltip"}
         %i{class: 'fa fa-paperclip'}
         %input#fileupload{type: "file", name: "files[]", multiple: true}
+      #upload-progress.display-none Uploading...
+
       - if @role == 'owner'
         .pull-right
           %button.btn.btn-primary(data-toggle="modal" data-target="#channel-link-modal")

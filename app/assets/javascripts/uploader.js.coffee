@@ -1,13 +1,20 @@
 class Uploader
   constructor: (channelId, channelUUID, role) ->
     fileUploader = $("#fileupload")
-
+    $('#upload-progress').hide()
     jqXHR = fileUploader.fileupload
       url: "/attachments"
       formData:
         channel_id: channelId
 
+
+    fileUploader.bind "fileuploadsend", (e, data) ->
+      $('.upload-wrapper').toggle()
+      $('#upload-progress').toggle()
+
     fileUploader.bind "fileuploaddone", (e, data) ->
+      $('.upload-wrapper').toggle()
+      $('#upload-progress').toggle()
       jsonData = data.jqXHR.responseJSON
 
       for attachment in jsonData.attachments
