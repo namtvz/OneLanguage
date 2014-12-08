@@ -241,12 +241,6 @@
       document.title = "1language";
     });
 
-    window.onbeforeunload = function(e) {
-      messenger.unsubscribe({
-        channel: chatChannel
-      });
-    };
-
     // Submit message when translator enter form textarea
     $(document).on('keypress', '.translate-input', function(e){
       var el = $(this);
