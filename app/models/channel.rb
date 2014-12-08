@@ -139,8 +139,10 @@ class Channel < ActiveRecord::Base
       'owner'
     when translator_id
       'translator'
-    else
+    when partner_id
       'partner'
+    else
+      nil
     end
   end
 

@@ -25,6 +25,11 @@ class ChannelsController < ApplicationController
     @owner_acc = @channel.owner
     @role = @channel.who_is? current_user
 
+    if !@role
+      flash[:error] = 'You do not have permission on the channel. If you are not owner, please use invitation link to get permission.'
+      redirect_to root_path and return
+    end
+
     if (@role == 'partner' && @channel.partner_online) || (@role == 'translator' && @channel.translator_online) || (@role == 'owner' && @channel.owner_online)
       flash[:error] = 'You or someone is already using this channel. Did you use this link in 2 tabs?'
       redirect_to root_path and return
