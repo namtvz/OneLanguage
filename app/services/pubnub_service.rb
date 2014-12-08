@@ -1,5 +1,6 @@
 class PubnubService
   def self.instance
+    @@my_logger ||= Logger.new("#{Rails.root}/log/pubnub.log")
     @@pubnub ||= Pubnub.new(
       :subscribe_key    => 'sub-c-ccf40038-78ac-11e4-a5ea-02ee2ddab7fe',
       :publish_key      => 'pub-c-547232aa-3488-4d2d-8cbb-2fd4072a0697',
@@ -9,7 +10,8 @@ class PubnubService
       },
       :connect_callback => lambda { |msg|
         puts "CONNECTED: #{msg.inspect}"
-      }
+      },
+      :logger => @@my_logger
     )
   end
 end
