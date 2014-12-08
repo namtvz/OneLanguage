@@ -2,8 +2,11 @@
 
 ## Description
 **Team**: NUS Technology
+
 **Project Name**: 1language (One Language)
+
 **Selected Theme**: Challenges associated with real time communication and translation (Star Trek universal translation anyone?)
+
 **Idea**: A marketplace for real time communication and translation
 
 Nowadays, the world becomes flat and everyone can connect together through variety of real-time conversation tools. But the gap of language difference is still there. Several tools support auto translation but it is very general and most of them are done automatically by the machine.
