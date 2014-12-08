@@ -19,7 +19,6 @@
       if(timeText.trim().length > 0){
         //Replace time string for FireFox, Safari (difference standard)
         timeText = timeText.replace(/-/g, "/")
-        console.log(timeText)
         $(e).text(moment(timeText).format("LLL"));
       }
     })

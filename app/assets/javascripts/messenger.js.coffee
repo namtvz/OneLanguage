@@ -2,7 +2,6 @@ class @Messenger
   constructor: (@publishKey, @subscribeKey) ->
 
   connect: (uuid) ->
-    console.log "Init User"
     @uuid = uuid
     @connection = PUBNUB.init(
       publish_key: @publishKey
@@ -12,7 +11,6 @@ class @Messenger
     return
 
   subscribe: (options) ->
-    console.log "User subscribe channel"
     @connection.subscribe.apply @connection, arguments
     return
 
