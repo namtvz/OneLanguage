@@ -2,7 +2,7 @@
   <tr class="from-owner" id="<%= message.message_ref %>" data-id="<%= message.message_ref %>">
     <td class="owner-td">
       <div class="message-content"><div class="arrow"></div>
-        <%= message.message %>
+        <span class="plain-text"><%= message.message %></span>
       </div>
       <div class="message-time"><%= timeAgo(message.message_ref) %></div>
     </td>
@@ -26,7 +26,7 @@
     </td>
     <td class="partner-td">
      <div class="message-content"><div class="arrow"></div>
-        <%= message.message %>
+        <span class="plain-text"><%= message.message %></span>
       </div>
       <div class="message-time"><%= timeAgo(message.message_ref) %></div>
     </td>
