@@ -29,17 +29,17 @@ $(document).ready ->
         required: true
       "channel[owner_language]":
         required: true
-        notEqual: '#partner_language'
       "channel[partner_language]":
         required: true
+        notEqual: '#owner_language'
     messages:
       "channel[name]":
         required: "Please enter channel name"
       "channel[owner_language]":
         required: "Please select owner's language"
-        notEqual: "Owner language must be different from partner's language"
       "channel[partner_language]":
         required: "Please select partner's language"
+        notEqual: "Owner language must be different from partner's language"
 @validateInviteForm = ->
   $('#invite-partner-form').validate
     rules:

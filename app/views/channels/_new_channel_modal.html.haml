@@ -12,7 +12,7 @@
           .form-group
             %label Channel name
             -# %input{class: 'form-control'}
-            = text_field_tag "channel[name]", nil, class: 'form-control', placeholder: "Channel Name"
+            = text_field_tag "channel[name]", nil, class: 'form-control', placeholder: "Channel Name", autofocus: true, id: "channel_name_input"
           .form-group
             %label Owner's Language
             -# %input{class: 'form-control'}
@@ -28,4 +28,7 @@
 :javascript
   $(document).ready(function(){
     validateNewChannel();
+    $('#new-channel-modal').on('shown.bs.modal', function(){
+      $('#channel_name_input').focus()
+    })
   });
