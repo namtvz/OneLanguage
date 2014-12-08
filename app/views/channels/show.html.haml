@@ -337,6 +337,7 @@
         $('textarea').prop('disabled', true);
       }
       $(".chat-content").scrollTop(1e10)
+      $('textarea').trigger('autosize.resize')
     });
 
     // Send message subscribe
