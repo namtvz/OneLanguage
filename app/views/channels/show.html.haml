@@ -145,7 +145,8 @@
         sender_id: g_currentUser.id,
         sender_role: '#{@role}',
         type: 'message',
-        message_ref: new Date().getTime()
+        message_ref: new Date().getTime(),
+        created_at: new Date().getTime()
       };
       messenger.publish({
         channel: chatChannel,
@@ -173,7 +174,8 @@
           sender_role: '#{@role}',
           original_role: original_role,
           original_sender_id: original_uid,
-          updated_at: new Date().getTime()
+          updated_at: new Date().getTime(),
+          created_at: new Date().getTime()
         }
       } else {
         message =  {
@@ -183,7 +185,8 @@
           original_role: original_role,
           sender_role: '#{@role}',
           type: 'message',
-          message_ref: message_ref
+          message_ref: message_ref,
+          created_at: new Date().getTime()
         };
       }
 
